@@ -1,6 +1,6 @@
 <form style="text-align: center;" method="post" action="">
 	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
-	<h2>确定要删除这条记录吗?</h2>
+	<h2>Are you sure remove <?=count($ks)?> record(s)?</h2>
 
 	<?php foreach($ks as $k){ ?>
 		<input type="hidden" name="k[]" value="<?=htmlspecialchars($k)?>" />
@@ -9,7 +9,7 @@
 	
 	<hr/>
 
-	<button type="submit" class="btn btn-sm btn-danger">删除</button>
+	<button type="submit" class="btn btn-sm btn-danger">Remove</button>
 	&nbsp; &nbsp;
-	<a class="btn btn-sm btn-default" onclick="history.go(-1)">取消</a>
+	<a class="btn btn-sm btn-default" onclick="history.go(-1)">Cancel</a>
 </form>

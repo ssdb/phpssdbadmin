@@ -10,7 +10,7 @@
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
 		<th>Key</th>
 		<th>Value</th>
-		<th width="100">Action</th>
+		<th width="80">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -23,12 +23,9 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><?=htmlspecialchars($k)?></td>
+		<td><a href="<?=_url('kv/view', array('k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-success" href="<?=_url('kv/view', array('k'=>$k))?>" title="View">
-				<i class="glyphicon glyphicon-search"></i>
-			</a>
 			<a class="btn btn-xs btn-primary" href="<?=_url('kv/edit', array('k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
 			</a>
@@ -69,7 +66,7 @@ function get_selected_keys(){
 	var ks = [];
 	$('#data_list input.cb').each(function(i, e){
 		if(e.checked){
-			var k = $($(e).parents('tr')[0]).find('td')[1].innerHTML;
+			var k = $($($(e).parents('tr')[0]).find('td')[1]).text();
 			ks.push(k);
 		}
 	});

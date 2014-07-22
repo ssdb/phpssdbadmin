@@ -19,7 +19,7 @@
 
 	
 	<p style="text-align: center;">
-		<button class="btn btn-lg btn-primary">Save</button>
+		<button class="btn btn-sm btn-primary">Save</button>
 	</p>
 </form>
 
