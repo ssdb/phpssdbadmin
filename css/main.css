@@ -1,0 +1,69 @@
+body, button, input, select, textarea {
+	font-size: 14px;
+	font-family: Arial;
+	color: #333;
+}
+body{
+	background: #fff;
+	margin-top: 45px;
+}
+p{
+	margin: 14px 0;
+	line-height: 160%;
+}
+form p{
+	margin: 0;
+}
+h1{
+	font-size: 170%;
+	margin: 18px 0;
+}
+h2{
+	font-size: 150%;
+	margin: 14px 0;
+}
+h3{
+	font-size: 130%;
+}
+h4{
+	font-size: 100%;
+}
+img{
+	max-width: 100%;
+}
+
+.navbar{
+	min-height: 40px;
+}
+.navbar-header{
+	float: left;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.navbar-brand{
+	margin: 0 !important;
+	padding: 10px 10px 0 4px;
+	height: 40px;
+}
+.navbar-nav{
+	margin: 0;
+	padding: 0;
+}
+.navbar-nav > li{
+	float: left;
+}
+.navbar-nav > li > a{
+	margin: 0;
+	padding: 10px;
+	height: 40px;
+}
+.footer{
+	color: #999;
+	font-size: 90%;
+	text-align: center;
+	padding: 15px 0;
+}
+
+.container{
+	width: 880px;
+}
