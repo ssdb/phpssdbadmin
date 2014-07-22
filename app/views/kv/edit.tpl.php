@@ -1,5 +1,6 @@
 
 <form role="form" method="post">
+	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
 	<table class="table table-striped" id="new_table">
 		<tr>
 			<th>Key</th>

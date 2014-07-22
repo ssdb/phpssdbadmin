@@ -20,7 +20,7 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li class="divider-vertical"></li>
-			<li><a href="<?=_url('kv')?>">kv</a></li>
+			<li><a href="<?=_url('kv/scan')?>">kv</a></li>
 			<li><a href="<?=_url('hash')?>">hash</a></li>
 			<li><a href="<?=_url('zset')?>">zset</a></li>
 			<li><a href="<?=_url('list')?>">list</a></li>

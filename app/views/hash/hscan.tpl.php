@@ -1,7 +1,7 @@
-<h2>Type: KV</h2>
+<h2>hscan: <code><?=$h?></code></h2>
 
 <div style="text-align: left;">
-	<a class="btn btn-xs btn-success" href="<?=_url('kv/new')?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('h'=>$h))?>">Add Record</a>
 </div>
 
 <table class="table table-striped" id="data_list">
@@ -23,13 +23,13 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('kv/view', array('k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
+		<td><a href="<?=_url('hash/hget', array('h'=>$h, 'k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?=_url('kv/edit', array('k'=>$k))?>" title="Edit">
+			<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('h'=>$h, 'k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('kv/remove', array('k'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?=_url('hash/hdel', array('h'=>$h, 'k'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -79,7 +79,8 @@ function edit_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/edit'))?> + '?' + $.param({k: ks});
+	var h = <?=json_encode($h)?>;
+	var url = <?=json_encode(_url('hash/hset'))?> + '?' + $.param({h: h, k: ks});
 	location.href = url;
 }
 
@@ -89,7 +90,8 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/remove'))?> + '?' + $.param({k: ks});
+	var h = <?=json_encode($h)?>;
+	var url = <?=json_encode(_url('hash/hdel'))?> + '?' + $.param({h: h, k: ks});
 	location.href = url;
 }
 </script>
@@ -104,7 +106,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('kv', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('hash/hscan', array('dir'=>'prev', 'h'=>$h, 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -119,7 +121,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('kv', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('hash/hscan', array('dir'=>'next', 'h'=>$h, 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

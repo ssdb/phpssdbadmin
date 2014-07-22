@@ -2,6 +2,10 @@
 class KvController extends BaseController
 {
 	function index($ctx){
+		_redirect('kv/scan');
+	}
+	
+	function scan($ctx){
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);
 		$size = intval($_GET['size']);
@@ -69,11 +73,7 @@ class KvController extends BaseController
 				$this->ssdb->multi_set($arr);
 			}
 
-			$k = trim($_POST['k']);
-			$v = trim($_POST['v']);
-			$this->ssdb->set($k, $v);
-			$url = _url('kv/view', array('k'=>$k));
-			_redirect($url);
+			_redirect($_POST['jump']);
 			return;
 		}
 		
@@ -83,6 +83,11 @@ class KvController extends BaseController
 		}
 		$kvs = $this->ssdb->multi_get($ks);
 		$ctx->kvs = $kvs;
+
+		$ctx->jump = $_SERVER['HTTP_REFERER'];
+		if(!$ctx->jump){
+			$ctx->jump = _url('kv');
+		}
 	}
 	
 	function remove($ctx){
