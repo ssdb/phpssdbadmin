@@ -1,7 +1,7 @@
 <h2>Type: KV</h2>
 
 <div style="text-align: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('kv/new')?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('kv/set')?>">Add Record</a>
 </div>
 
 <table class="table table-striped" id="data_list">
@@ -23,13 +23,13 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('kv/view', array('k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
+		<td><a href="<?=_url('kv/get', array('k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?=_url('kv/edit', array('k'=>$k))?>" title="Edit">
+			<a class="btn btn-xs btn-primary" href="<?=_url('kv/set', array('k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('kv/remove', array('k'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?=_url('kv/del', array('k'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -79,7 +79,7 @@ function edit_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/edit'))?> + '?' + $.param({k: ks});
+	var url = <?=json_encode(_url('kv/set'))?> + '?' + $.param({k: ks});
 	location.href = url;
 }
 
@@ -89,7 +89,7 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/remove'))?> + '?' + $.param({k: ks});
+	var url = <?=json_encode(_url('kv/del'))?> + '?' + $.param({k: ks});
 	location.href = url;
 }
 </script>
