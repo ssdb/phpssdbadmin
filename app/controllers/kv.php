@@ -33,10 +33,16 @@ class KvController extends BaseController
 		if($_POST){
 			$arr = array();
 			foreach($_POST['k'] as $index=>$k){
+				$k = trim($k);
+				if(strlen($k) == 0){
+					continue;
+				}
 				$v = $_POST['v'][$index];
 				$arr[$k] = $v;
 			}
-			$this->ssdb->multi_set($arr);
+			if($arr){
+				$this->ssdb->multi_set($arr);
+			}
 			_redirect('kv');
 		}
 	}
@@ -50,6 +56,19 @@ class KvController extends BaseController
 	
 	function edit($ctx){
 		if($_POST){
+			$arr = array();
+			foreach($_POST['k'] as $index=>$k){
+				$k = trim($k);
+				if(strlen($k) == 0){
+					continue;
+				}
+				$v = $_POST['v'][$index];
+				$arr[$k] = $v;
+			}
+			if($arr){
+				$this->ssdb->multi_set($arr);
+			}
+
 			$k = trim($_POST['k']);
 			$v = trim($_POST['v']);
 			$this->ssdb->set($k, $v);
@@ -57,23 +76,31 @@ class KvController extends BaseController
 			_redirect($url);
 			return;
 		}
-		$k = trim($_GET['k']);
-		$v = $this->ssdb->get($k);
-		$ctx->k = $k;
-		$ctx->v = $v;
+		
+		$ks = $_GET['k'];
+		if(!is_array($ks)){
+			$ks = array($ks);
+		}
+		$kvs = $this->ssdb->multi_get($ks);
+		$ctx->kvs = $kvs;
 	}
 	
 	function remove($ctx){
 		if($_POST){
-			$k = trim($_POST['k']);
-			$this->ssdb->del($k);
+			$k = $_POST['k'];
+			if(is_array($k)){
+				$this->ssdb->multi_del($k);
+			}else{
+				$this->ssdb->del($k);
+			}
 			_redirect($_POST['jump']);
 			return;
 		}
-		$k = trim($_GET['k']);
-		$v = $this->ssdb->get($k);
-		$ctx->k = $k;
-		$ctx->v = $v;
+		$k = $_GET['k'];
+		if(!is_array($k)){
+			$k = array($k);
+		}
+		$ctx->ks = $k;
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
 			$ctx->jump = _url('kv');

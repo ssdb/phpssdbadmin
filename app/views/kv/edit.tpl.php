@@ -1,13 +1,22 @@
+
 <form role="form" method="post">
-	<div class="form-group">
-		<label for="k">Key</label>
-		<div><?=$k?></div>
-		<input type="hidden" name="k" value="<?=htmlspecialchars($k)?>" />
-	</div>
-	<div class="form-group">
-		<label for="v">Value</label>
-		<textarea name="v" id="v" class="form-control" style="height: 200px;"><?=htmlspecialchars($v)?></textarea>
-	</div>
+	<table class="table table-striped" id="new_table">
+		<tr>
+			<th>Key</th>
+			<th>
+				Value
+			</th>
+		</tr>
+		<?php foreach($kvs as $k=>$v){ ?>
+		<tr class="item">
+			<td><input name="k[]" class="form-control" type="text" value="<?=htmlspecialchars($k)?>" /></td>
+			<td><textarea name="v[]" class="form-control"><?=htmlspecialchars($v)?></textarea></td>
+		</tr>
+		<?php } ?>
+	</table>
+
 	
-	<button type="submit" class="btn btn-default">Save</button>
+	<p style="text-align: center;">
+		<button class="btn btn-lg btn-primary">Save</button>
+	</p>
 </form>

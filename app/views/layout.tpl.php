@@ -20,11 +20,6 @@
 		</div>
 		<ul class="nav navbar-nav">
 			<li class="divider-vertical"></li>
-			<li class="active">
-				<a href="<?=_url('/')?>">
-					<i class="glyphicon glyphicon-home"></i> Home
-				</a>
-			</li>
 			<li><a href="<?=_url('kv')?>">kv</a></li>
 			<li><a href="<?=_url('hash')?>">hash</a></li>
 			<li><a href="<?=_url('zset')?>">zset</a></li>

@@ -1,10 +1,11 @@
 <form style="text-align: center;" method="post" action="">
-	<h2>确定要删除这条记录吗?</h2>
-	
-	<input type="hidden" name="k" value="<?=htmlspecialchars($k)?>" />
 	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
+	<h2>确定要删除这条记录吗?</h2>
 
-	<p style="font-weight: bold;"><?=$k?></p>
+	<?php foreach($ks as $k){ ?>
+		<input type="hidden" name="k[]" value="<?=htmlspecialchars($k)?>" />
+		<p style="font-weight: bold;"><?=$k?></p>
+	<?php } ?>
 	
 	<hr/>
 
