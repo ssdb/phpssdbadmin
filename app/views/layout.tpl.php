@@ -24,7 +24,6 @@
 			<li><a href="<?=_url('hash')?>">hash</a></li>
 			<li><a href="<?=_url('zset')?>">zset</a></li>
 			<li><a href="<?=_url('list')?>">list</a></li>
-			<li><a href="<?=_url('about')?>">About</a></li>
 		</ul>
 	</div>
 </div>
