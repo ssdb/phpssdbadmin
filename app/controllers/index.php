@@ -1,14 +1,25 @@
 <?php
-class IndexController extends Controller
+class IndexController extends BaseController
 {
-	function init($ctx){
+	function index($ctx){
+		$info = $this->ssdb->info();
+		$info = array_slice($info, 1);
+		$tmp = array();
+		for($i=0; $i<count($info); $i+=2){
+			$tmp[$info[$i]] = $info[$i + 1];
+		}
+		$ctx->info = $this->parse_info($tmp);
 	}
 	
-	function index($ctx){
-		$page = 1;
-		$size = 16;
-		$where = '';
-		#$ctx->page = Post::paginate($page, $size, $where, 'id desc');
-		$ctx->var = 'hello! ' . date('Y-m-d H:i:s'); // 在 View 中可以直接使用的变量: $var
+	private function parse_info($info){
+		$disk_usage = 0;
+		$stats = $info['leveldb.stats'];
+		$lines = explode("\n", $stats);
+		foreach(array_slice($lines, 3) as $line){
+			$ps = preg_split('/\s+/', trim($line));
+			$disk_usage += $ps[2];
+		}
+		$info['disk_usage'] = $disk_usage . ' MB';
+		return $info;
 	}
 }

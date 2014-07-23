@@ -1,10 +1,18 @@
-
-<h1>Welcome!</h1>
+<h1>PHP SSDB Admin</h1>
 
 <hr/>
 
-<h3>PHP SSDB Admin</h3>
+<h3>Server Info</h3>
 
-<p>@author: <a target="_blank" href="http://www.ideawu.net/">ideawu</a></p>
-
-<p>SSDB Database: <a target="_blank" href="http://ssdb.io">ssdb.io</a></p>
+<table class="table table-striped">
+<?php foreach($info as $k=>$v){ ?>
+<tr>
+	<td width="150"><?=$k?></td>
+	<?php if($k == 'leveldb.stats'){ ?>
+		<td><pre><?=$v?></pre></td>
+	<?php }else{ ?>
+		<td><?=$v?></td>
+	<?php } ?>
+</tr>
+<?php } ?>
+</table>

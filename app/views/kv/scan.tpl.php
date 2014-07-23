@@ -50,13 +50,7 @@ With selected:
 
 <script>
 function check_all(cb){
-	/*
-	if(cb.checked){
-		$('#data_list input.cb').attr('checked', 'checked');
-	}else{
-		$('#data_list input.cb').attr('checked', '');
-	}
-	*/
+	$('#data_list input.cb').prop('checked', cb.checked);
 	$('#data_list input.cb').each(function(i, e){
 		e.checked = cb.checked;
 	});

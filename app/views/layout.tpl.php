@@ -25,6 +25,10 @@
 			<li><a href="<?=_url('zset')?>">zset</a></li>
 			<li><a href="<?=_url('list')?>">list</a></li>
 		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a target="_blank" href="http://ssdb.io">ssdb.io</a></li>
+			<li><a target="_blank" href="http://www.ideawu.net/">author</a></li>
+		</ul>
 	</div>
 </div>
 

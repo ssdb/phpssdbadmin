@@ -1,5 +1,5 @@
 <?php
-class ZsetController extends Controller
+class ZsetController extends BaseController
 {
 	function index($ctx){
 	}
