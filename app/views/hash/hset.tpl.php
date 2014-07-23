@@ -30,6 +30,8 @@
 	
 	<p style="text-align: center;">
 		<button class="btn btn-sm btn-primary">Save</button>
+		&nbsp; &nbsp;
+		<a class="btn btn-sm btn-default" onclick="history.go(-1)">Cancel</a>
 	</p>
 </form>
 

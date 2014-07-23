@@ -1,4 +1,4 @@
-<h2>hscan: <code><?=$n?></code></h2>
+<h2>zscan: <code><?=$n?></code></h2>
 
 <div style="text-align: left;">
 	<a class="btn btn-xs btn-primary" href="<?=_url('zset/zset', array('n'=>$n))?>">Add Record</a>
@@ -9,7 +9,7 @@
 	<tr>
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
 		<th>Key</th>
-		<th>Value</th>
+		<th>Score</th>
 		<th width="80">Action</th>
 	</tr>
 </thead>

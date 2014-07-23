@@ -56,12 +56,12 @@ class ZsetController extends BaseController
 		$ctx->dir = $dir;
 		$ctx->size = $size;
 		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->zrscan($n, $s, $e, $size + 1);
+			$ctx->kvs = $this->ssdb->zrscan($n, $s, '', '', $size + 1);
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 			$ctx->kvs = array_reverse($ctx->kvs, true);
 		}else{
-			$ctx->kvs = $this->ssdb->zscan($n, $s, $e, $size + 1);
+			$ctx->kvs = $this->ssdb->zscan($n, $s, '', '', $size + 1);
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 		}
@@ -107,7 +107,7 @@ class ZsetController extends BaseController
 		if($req['k'][0] === ''){
 			$kvs = array('' => '');
 		}else{
-			$kvs = $this->ssdb->multi_hget($n, $req['k']);
+			$kvs = $this->ssdb->multi_zget($n, $req['k']);
 		}
 		$ctx->n = $n;
 		$ctx->kvs = $kvs;
@@ -126,7 +126,7 @@ class ZsetController extends BaseController
 		}
 		
 		if($_POST){
-			$this->ssdb->multi_hdel($n, $req['k']);
+			$this->ssdb->multi_zdel($n, $req['k']);
 			_redirect($_POST['jump']);
 			return;
 		}

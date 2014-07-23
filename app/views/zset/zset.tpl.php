@@ -22,7 +22,7 @@
 				<td><input name="n[]" class="form-control" type="text" /></td>
 			<?php } ?>
 			<td><input name="k[]" value="<?=htmlspecialchars($k)?>" class="form-control" type="text" /></td>
-			<td><textarea name="v[]" class="form-control"><?=htmlspecialchars($v)?></textarea></td>
+			<td><input name="v[]" class="form-control" type="text" value="<?=htmlspecialchars($v)?>" /></td>
 		</tr>
 		<?php } ?>
 	</table>
@@ -30,6 +30,8 @@
 	
 	<p style="text-align: center;">
 		<button class="btn btn-sm btn-primary">Save</button>
+		&nbsp; &nbsp;
+		<a class="btn btn-sm btn-default" onclick="history.go(-1)">Cancel</a>
 	</p>
 </form>
 
