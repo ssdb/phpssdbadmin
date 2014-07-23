@@ -1,4 +1,4 @@
-<p><b>Hash:</b></p>
+<p><b>Zset:</b></p>
 
 <?=htmlspecialchars($n)?>
 
@@ -6,6 +6,6 @@
 
 <?=htmlspecialchars($k)?>
 
-<p><b>Value:</b></p>
+<p><b>Score:</b></p>
 
 <?=htmlspecialchars($v)?>

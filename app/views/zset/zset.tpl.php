@@ -1,14 +1,14 @@
-<h2>Add or Update HASH type record(s)</h2>
+<h2>Add or Update ZSET type record(s)</h2>
 
 <form role="form" method="post">
 	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
 
 	<table class="table table-striped" id="new_table">
 		<tr>
-			<th>Hash</th>
+			<th>Zset</th>
 			<th>Key</th>
 			<th>
-				Value
+				Score
 				<a class="btn btn-xs btn-success" onclick="add_row()" style="float: right;">
 					<i class="glyphicon glyphicon-plus"></i>
 				</a>

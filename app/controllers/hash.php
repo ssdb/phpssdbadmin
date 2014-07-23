@@ -38,7 +38,7 @@ class HashController extends BaseController
 	}
 	
 	function hscan($ctx){
-		$h = trim($_GET['h']);
+		$n = trim($_GET['n']);
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);
 		$size = intval($_GET['size']);
@@ -50,28 +50,28 @@ class HashController extends BaseController
 			$dir = 'next';
 		}
 		
-		$ctx->h = $h;
+		$ctx->n = $n;
 		$ctx->s = $s;
 		$ctx->e = $e;
 		$ctx->dir = $dir;
 		$ctx->size = $size;
 		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->hrscan($h, $s, $e, $size + 1);
+			$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 			$ctx->kvs = array_reverse($ctx->kvs, true);
 		}else{
-			$ctx->kvs = $this->ssdb->hscan($h, $s, $e, $size + 1);
+			$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 		}
 	}
 	
 	function hget($ctx){
-		$h = trim($_GET['h']);
+		$n = trim($_GET['n']);
 		$k = trim($_GET['k']);
-		$v = $this->ssdb->hget($h, $k);
-		$ctx->h = $h;
+		$v = $this->ssdb->hget($n, $k);
+		$ctx->n = $n;
 		$ctx->k = $k;
 		$ctx->v = $v;
 	}
@@ -87,78 +87,78 @@ class HashController extends BaseController
 		}
 		
 		if($_POST){
-			if(!is_array($req['h'])){
-				$req['h'] = array(trim($req['h']));
+			if(!is_array($req['n'])){
+				$req['n'] = array(trim($req['n']));
 			}
-			foreach($req['h'] as $index=>$h){
-				$h = trim($h);
+			foreach($req['n'] as $index=>$n){
+				$n = trim($n);
 				$k = trim($req['k'][$index]);
 				$v = trim($req['v'][$index]);
-				if(!strlen($h) || !strlen($k) || !strlen($v)){
+				if(!strlen($n) || !strlen($k) || !strlen($v)){
 					continue;
 				}
-				$this->ssdb->hset($h, $k, $v);
+				$this->ssdb->hset($n, $k, $v);
 			}
 			_redirect($_POST['jump']);
 			return;
 		}
 
-		$h = trim($req['h']);
+		$n = trim($req['n']);
 		if($req['k'][0] === ''){
 			$kvs = array('' => '');
 		}else{
-			$kvs = $this->ssdb->multi_hget($h, $req['k']);
+			$kvs = $this->ssdb->multi_hget($n, $req['k']);
 		}
-		$ctx->h = $h;
+		$ctx->n = $n;
 		$ctx->kvs = $kvs;
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('hash/hscan', array('h'=>$h));
+			$ctx->jump = _url('hash/hscan', array('n'=>$n));
 		}
 	}
 	
 	function hdel($ctx){
 		$req = $_POST + $_GET;
-		$h = trim($req['h']);
+		$n = trim($req['n']);
 		
 		if(!is_array($req['k'])){
 			$req['k'] = array(trim($req['k']));
 		}
 		
 		if($_POST){
-			$this->ssdb->multi_hdel($h, $req['k']);
+			$this->ssdb->multi_hdel($n, $req['k']);
 			_redirect($_POST['jump']);
 			return;
 		}
 
-		$ctx->h = $h;
+		$ctx->n = $n;
 		$ctx->ks = $req['k'];
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('hash/hscan', array('h'=>$h));
+			$ctx->jump = _url('hash/hscan', array('n'=>$n));
 		}
 	}
 
 	function hclear($ctx){
 		$req = $_POST + $_GET;
-		if(!is_array($req['h'])){
-			$req['h'] = array(trim($req['h']));
+		if(!is_array($req['n'])){
+			$req['n'] = array(trim($req['n']));
 		}
 		if($_POST){
-			foreach($req['h'] as $index=>$h){
-				$h = trim($h);
-				if(!strlen($h)){
+			foreach($req['n'] as $index=>$n){
+				$n = trim($n);
+				if(!strlen($n)){
 					continue;
 				}
-				$this->ssdb->hclear($h);
+				$this->ssdb->hclear($n);
 			}
 			_redirect($_POST['jump']);
 		}
 		
-		$ctx->hs = $req['h'];
+		$ctx->ns = $req['n'];
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('hash/hscan', array('h'=>$h));
+			$ctx->jump = _url('hash/hscan', array('n'=>$n));
 		}
 	}
 }

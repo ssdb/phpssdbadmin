@@ -1,7 +1,7 @@
 <h2>hscan: <code><?=$n?></code></h2>
 
 <div style="text-align: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('n'=>$n))?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('zset/zset', array('n'=>$n))?>">Add Record</a>
 </div>
 
 <table class="table table-striped" id="data_list">
@@ -23,13 +23,13 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('hash/hget', array('n'=>$n, 'k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
+		<td><a href="<?=_url('zset/zget', array('n'=>$n, 'k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('n'=>$n, 'k'=>$k))?>" title="Edit">
+			<a class="btn btn-xs btn-primary" href="<?=_url('zset/zset', array('n'=>$n, 'k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('hash/hdel', array('n'=>$n, 'k'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?=_url('zset/zdel', array('n'=>$n, 'k'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -80,7 +80,7 @@ function edit_selected(){
 		return;
 	}
 	var n = <?=json_encode($n)?>;
-	var url = <?=json_encode(_url('hash/hset'))?> + '?' + $.param({n: n, k: ks});
+	var url = <?=json_encode(_url('zset/zset'))?> + '?' + $.param({n: n, k: ks});
 	location.href = url;
 }
 
@@ -91,7 +91,7 @@ function remove_selected(){
 		return;
 	}
 	var n = <?=json_encode($n)?>;
-	var url = <?=json_encode(_url('hash/hdel'))?> + '?' + $.param({n: n, k: ks});
+	var url = <?=json_encode(_url('zset/zdel'))?> + '?' + $.param({n: n, k: ks});
 	location.href = url;
 }
 </script>
@@ -106,7 +106,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('hash/hscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('zset/zscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -121,7 +121,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('hash/hscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('zset/zscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

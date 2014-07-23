@@ -23,10 +23,10 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('hash/hscan', array('h'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
+		<td><a href="<?=_url('hash/hscan', array('n'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-danger" href="<?=_url('hash/hclear', array('h'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?=_url('hash/hclear', array('n'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -73,7 +73,7 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('hash/hclear'))?> + '?' + $.param({h: ks});
+	var url = <?=json_encode(_url('hash/hclear'))?> + '?' + $.param({n: ks});
 	location.href = url;
 }
 </script>

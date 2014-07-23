@@ -1,7 +1,7 @@
 <form style="text-align: center;" method="post" action="">
 	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
 
-	<h2>Clear <?=count($ns)?> hash(s)?</h2>
+	<h2>Clear <?=count($ns)?> zset(s)?</h2>
 
 	<?php foreach($ns as $n){ ?>
 		<input type="hidden" name="n[]" value="<?=htmlspecialchars($n)?>" />
