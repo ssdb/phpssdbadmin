@@ -15,8 +15,8 @@ class BaseController extends Controller
 				$_COOKIE['size'] = $ctx->size;
 			}
 		}
-		if(isset($_COOKIE['size'])){
-			$ctx->size = intval($req['size']);
+		if(isset($_COOKIE['psa_size'])){
+			$ctx->size = intval($_COOKIE['psa_size']);
 		}else{
 			$ctx->size = 0;
 		}
