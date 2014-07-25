@@ -1,6 +1,11 @@
 <?php
 class ZsetController extends BaseController
 {
+	function init($ctx){
+		parent::init($ctx);
+		$ctx->title = 'ZSET';
+	}
+	
 	function index($ctx){
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);

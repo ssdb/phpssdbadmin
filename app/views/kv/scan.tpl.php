@@ -1,7 +1,10 @@
 <h2>Type: KV</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('kv/set')?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('kv/set')?>">
+		<i class="glyphicon glyphicon-plus"></i>
+		Add
+	</a>
 </div>
 
 <div style="float: right;">

@@ -67,3 +67,33 @@ img{
 .container{
 	width: 100%;
 }
+
+/************* PagerView **************/
+.PagerView{
+	font-size: 12px;
+	font-family: tahoma, arial;
+	color: #333;
+	text-align: center;
+	padding: 8px;
+	line-height: 100%;
+}
+.PagerView span{
+	color: #999;
+	margin: 0 1px;
+	padding: 3px 6px;
+	border: 1px solid #ccc;
+}
+.PagerView span.on{
+	color: #fff;
+	font-weight: bold;
+	border: 1px solid #666;
+	background: #39f;
+}
+.PagerView a{
+	color: #00f;
+	text-decoration: none;
+}
+.PagerView a span{
+	color: #33f;
+	border: 1px solid #66c;
+}

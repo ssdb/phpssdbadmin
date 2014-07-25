@@ -1,7 +1,7 @@
-<h2>hscan: <a href="<?=_url('hash/hscan', array('n'=>$n))?>"><code><?=$n?></code></a></h2>
+<h2>Type: List</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('n'=>$n))?>">
+	<a class="btn btn-xs btn-primary" href="<?=_url('list/qpush')?>">
 		<i class="glyphicon glyphicon-plus"></i>
 		Add
 	</a>
@@ -9,7 +9,6 @@
 
 <div style="float: right;">
 <form method="get">
-	<input type="hidden" name="n" value="<?=htmlspecialchars($n)?>" />
 	Start:
 	<input type="text" name="s" value="<?=htmlspecialchars($s)?>" />
 	Size:
@@ -29,8 +28,8 @@
 <thead>
 	<tr>
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
-		<th>Key</th>
-		<th>Value</th>
+		<th>List</th>
+		<th>Size</th>
 		<th width="80">Action</th>
 	</tr>
 </thead>
@@ -44,13 +43,10 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('hash/hget', array('n'=>$n, 'k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
+		<td><a href="<?=_url('list/qrange', array('n'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset', array('n'=>$n, 'k'=>$k))?>" title="Edit">
-				<i class="glyphicon glyphicon-pencil"></i>
-			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('hash/hdel', array('n'=>$n, 'k'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?=_url('list/qclear', array('n'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -61,9 +57,6 @@
 
 With selected:
 
-<a class="btn btn-xs btn-primary" title="Edit" onclick="edit_selected()">
-	<i class="glyphicon glyphicon-pencil"></i>
-</a>
 <a class="btn btn-xs btn-danger" title="Remove" onclick="remove_selected()">
 	<i class="glyphicon glyphicon-remove"></i>
 </a>
@@ -87,25 +80,13 @@ function get_selected_keys(){
 	return ks;
 }
 
-function edit_selected(){
-	var ks = get_selected_keys();
-	if(!ks.length){
-		alert('Select row(s) first!');
-		return;
-	}
-	var n = <?=json_encode($n)?>;
-	var url = <?=json_encode(_url('hash/hset'))?> + '?' + $.param({n: n, k: ks});
-	location.href = url;
-}
-
 function remove_selected(){
 	var ks = get_selected_keys();
 	if(!ks.length){
 		alert('Select row(s) first!');
 		return;
 	}
-	var n = <?=json_encode($n)?>;
-	var url = <?=json_encode(_url('hash/hdel'))?> + '?' + $.param({n: n, k: ks});
+	var url = <?=json_encode(_url('list/qclear'))?> + '?' + $.param({n: ks});
 	location.href = url;
 }
 </script>
@@ -120,7 +101,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('hash/hscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('list', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -135,7 +116,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('hash/hscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('list', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?=$url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

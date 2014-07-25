@@ -1,7 +1,10 @@
 <h2>Type: HASH</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset')?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('hash/hset')?>">
+		<i class="glyphicon glyphicon-plus"></i>
+		Add
+	</a>
 </div>
 
 <div style="float: right;">
@@ -61,13 +64,6 @@ With selected:
 
 <script>
 function check_all(cb){
-	/*
-	if(cb.checked){
-		$('#data_list input.cb').attr('checked', 'checked');
-	}else{
-		$('#data_list input.cb').attr('checked', '');
-	}
-	*/
 	$('#data_list input.cb').each(function(i, e){
 		e.checked = cb.checked;
 	});

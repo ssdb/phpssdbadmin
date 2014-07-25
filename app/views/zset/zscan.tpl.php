@@ -1,11 +1,15 @@
-<h2>zscan: <code><?=$n?></code></h2>
+<h2>zscan: <a href="<?=_url('zset/zscan', array('n'=>$n))?>"><code><?=$n?></code></a></h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('zset/zset', array('n'=>$n))?>">Add Record</a>
+	<a class="btn btn-xs btn-primary" href="<?=_url('zset/zset', array('n'=>$n))?>">
+		<i class="glyphicon glyphicon-plus"></i>
+		Add
+	</a>
 </div>
 
 <div style="float: right;">
 <form method="get">
+	<input type="hidden" name="n" value="<?=htmlspecialchars($n)?>" />
 	Start:
 	<input type="text" name="s" value="<?=htmlspecialchars($s)?>" />
 	Size:
@@ -67,13 +71,6 @@ With selected:
 
 <script>
 function check_all(cb){
-	/*
-	if(cb.checked){
-		$('#data_list input.cb').attr('checked', 'checked');
-	}else{
-		$('#data_list input.cb').attr('checked', '');
-	}
-	*/
 	$('#data_list input.cb').each(function(i, e){
 		e.checked = cb.checked;
 	});

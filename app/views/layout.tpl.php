@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>PHP SSDB Admin</title>
+	<title>PHP SSDB Admin<?php if($title){echo ' - ' . $title;} ?></title>
 	<meta name="description" content="iphp framework">
 	<meta name="keywords" content="iphp framework">
 	<link href="<?= _url('/css/bootstrap.min.css') ?>" rel="stylesheet">
 	<link href="<?= _url('/css/main.css') ?>" rel="stylesheet">
 	<script src="<?= _url('/js/jquery-1.9.1.min.js') ?>"></script>
 	<script src="<?= _url('/js/bootstrap.min.js') ?>"></script>
+	<script src="<?= _url('/js/PagerView.js') ?>"></script>
 </head>
 <body>
 

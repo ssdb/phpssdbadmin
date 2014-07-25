@@ -1,6 +1,11 @@
 <?php
 class HashController extends BaseController
 {
+	function init($ctx){
+		parent::init($ctx);
+		$ctx->title = 'HASH';
+	}
+	
 	function index($ctx){
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);

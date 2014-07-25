@@ -1,6 +1,11 @@
 <?php
 class KvController extends BaseController
 {
+	function init($ctx){
+		parent::init($ctx);
+		$ctx->title = 'KV';
+	}
+	
 	function index($ctx){
 		_redirect('kv/scan');
 	}
