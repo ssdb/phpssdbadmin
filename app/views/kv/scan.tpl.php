@@ -1,7 +1,23 @@
 <h2>Type: KV</h2>
 
-<div style="text-align: left;">
+<div style="float: left;">
 	<a class="btn btn-xs btn-primary" href="<?=_url('kv/set')?>">Add Record</a>
+</div>
+
+<div style="float: right;">
+<form method="get">
+	Start:
+	<input type="text" name="s" value="<?=htmlspecialchars($s)?>" />
+	Size:
+	<select name="size">
+		<option value="10" <?=$size==10?'selected="selected"':''?>>10</option>
+		<option value="20" <?=$size==20?'selected="selected"':''?>>20</option>
+		<option value="50" <?=$size==50?'selected="selected"':''?>>50</option>
+		<option value="100" <?=$size==100?'selected="selected"':''?>>100</option>
+		<option value="200" <?=$size==200?'selected="selected"':''?>>200</option>
+	</select>
+	<button type="submit" class="btn btn-xs btn-primary">Query</button>
+</form>
 </div>
 
 <table class="table table-striped" id="data_list">
@@ -17,8 +33,8 @@
 	<?php
 	foreach($kvs as $k=>$v){
 		$v = htmlspecialchars($v);
-		if(strlen($v) > 64){
-			$v = substr($v, 0, 64) . '...';
+		if(strlen($v) > 128){
+			$v = substr($v, 0, 128) . '...';
 		}
 	?>
 	<tr>

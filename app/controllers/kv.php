@@ -8,10 +8,7 @@ class KvController extends BaseController
 	function scan($ctx){
 		$s = trim($_GET['s']);
 		$e = trim($_GET['e']);
-		$size = intval($_GET['size']);
-		if($size <= 0){
-			$size = 3;
-		}
+		$size = $ctx->size;
 		$dir = trim($_GET['dir']);
 		if($dir != 'prev'){
 			$dir = 'next';
