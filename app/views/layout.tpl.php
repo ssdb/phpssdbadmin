@@ -28,7 +28,7 @@
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a target="_blank" href="http://ssdb.io">ssdb.io</a></li>
-			<li><a target="_blank" href="http://www.ideawu.net/">author</a></li>
+			<li><a target="_blank" href="https://github.com/ssdb/phpssdbadmin">psa</a></li>
 		</ul>
 	</div>
 </div>
