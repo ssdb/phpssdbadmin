@@ -87,8 +87,8 @@ class ZsetController extends BaseController
 			foreach($req['n'] as $index=>$n){
 				$n = trim($n);
 				$k = trim($req['k'][$index]);
-				$v = trim($req['v'][$index]);
-				if(!strlen($n) || !strlen($k) || !strlen($v)){
+				$v = intval($req['v'][$index]);
+				if(!strlen($n) || !strlen($k)){
 					continue;
 				}
 				$this->ssdb->zset($n, $k, $v);

@@ -88,7 +88,7 @@ class HashController extends BaseController
 				$n = trim($n);
 				$k = trim($req['k'][$index]);
 				$v = trim($req['v'][$index]);
-				if(!strlen($n) || !strlen($k) || !strlen($v)){
+				if(!strlen($n) || !strlen($k)){
 					continue;
 				}
 				$this->ssdb->hset($n, $k, $v);
