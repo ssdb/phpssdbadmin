@@ -12,7 +12,7 @@ class BaseController extends Controller
 			$ctx->size = intval($req['size']);
 			if($ctx->size > 0){
 				setcookie('psa_size', $ctx->size, time() + 86400 * 30, '/');
-				$_COOKIE['size'] = $ctx->size;
+				$_COOKIE['psa_size'] = $ctx->size;
 			}
 		}
 		if(isset($_COOKIE['psa_size'])){
