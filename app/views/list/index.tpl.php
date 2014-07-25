@@ -3,7 +3,7 @@
 <div style="float: left;">
 	<a class="btn btn-xs btn-primary" href="<?=_url('list/qpush')?>">
 		<i class="glyphicon glyphicon-plus"></i>
-		Add
+		Push
 	</a>
 </div>
 
@@ -46,6 +46,9 @@
 		<td><a href="<?=_url('list/qrange', array('n'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
 		<td><?=$v?></td>
 		<td>
+			<a class="btn btn-xs btn-info" href="<?=_url('list/qpop', array('n'=>$k))?>" title="Pop Items">
+				<i class="glyphicon glyphicon-minus"></i>
+			</a>
 			<a class="btn btn-xs btn-danger" href="<?=_url('list/qclear', array('n'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>

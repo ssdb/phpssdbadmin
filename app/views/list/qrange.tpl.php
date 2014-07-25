@@ -3,12 +3,12 @@
 <div style="float: left;">
 	<a class="btn btn-xs btn-primary" href="<?=_url('list/qpush', array('n'=>$n))?>">
 		<i class="glyphicon glyphicon-plus"></i>
-		Add
+		Push
 	</a>
 	&nbsp;
 	<a class="btn btn-xs btn-danger" href="<?=_url('list/qpop', array('n'=>$n))?>">
 		<i class="glyphicon glyphicon-minus"></i>
-		Remove
+		Pop
 	</a>
 </div>
 

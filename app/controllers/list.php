@@ -107,11 +107,32 @@ class ListController extends BaseController
 		$ctx->kvs = $kvs;
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('hash/hscan', array('n'=>$n));
+			$ctx->jump = _url('list/qrange', array('n'=>$n));
 		}
 	}
 	
 	function qpop($ctx){
+		$n = trim($_GET['n']);
+		$ctx->n = $n;
+		if($_POST){
+			$req = $_GET + $_POST;
+			$n = trim($req['n']);
+			$num = intval($req['num']);
+			$loc = trim($req['loc']);
+			for($i=0; $i<$num; $i++){
+				if($loc == 'back'){
+					$this->ssdb->qpop_back($n);
+				}else{
+					$this->ssdb->qpop_front($n);
+				}
+			}
+			_redirect($_POST['jump']);
+			return;
+		}
+		$ctx->jump = $_SERVER['HTTP_REFERER'];
+		if(!$ctx->jump){
+			$ctx->jump = _url('list/qrange', array('n'=>$n));
+		}
 	}
 
 	function qclear($ctx){
