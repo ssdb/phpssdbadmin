@@ -27,7 +27,7 @@
 			<li><a href="<?=_url('list')?>">list</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-			<li><a target="_blank" href="http://ssdb.io">ssdb.io</a></li>
+			<li><a target="_blank" href="http://ssdb.io?psa">ssdb.io</a></li>
 			<li><a target="_blank" href="https://github.com/ssdb/phpssdbadmin">psa</a></li>
 		</ul>
 	</div>
