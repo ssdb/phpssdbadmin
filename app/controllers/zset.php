@@ -20,12 +20,16 @@ class ZsetController extends BaseController
 		$ctx->dir = $dir;
 		$ctx->size = $size;
 		if($dir == 'prev'){
-			//$ctx->kvs = $this->ssdb->zrlist($s, $e, $size + 1);
-			//$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = $this->ssdb->zlist('', '', $size + 1);
-			$ctx->has_more = false;
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-			//$ctx->kvs = array_reverse($ctx->kvs, true);
+			$ctx->kvs = $this->ssdb->zrlist($s, $e, $size + 1);
+			if($ctx->kvs === false){
+				$ctx->kvs = $this->ssdb->zlist('', '', $size + 1);
+				$ctx->has_more = false;
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}else{
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}
 		}else{
 			$ctx->kvs = $this->ssdb->zlist($s, $e, $size + 1);
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
