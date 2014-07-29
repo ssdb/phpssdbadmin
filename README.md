@@ -20,6 +20,17 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 		try_files $uri $uri/ /phpssdbadmin/index.php?$args;
 	}
 
+### php.ini configuration
+
+__`short_open_tag` MUST be open!__
+
+Edit php.ini, find `short_open_tag`, if there is none, add the line below, if any, modify it to
+
+	short_open_tag = On
+
+Attention, do not put any ';' mark or any other charcters before it!
+
+
 ## Screeshots
 
 ![](./imgs/phpssdbadmin-index.png)
