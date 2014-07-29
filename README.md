@@ -20,6 +20,8 @@ phpssdbadmin
 
 如果你使用的是 Apache 的话, 自己将上面的规则改成 Apache 格式.
 
+__注意: 如果你的 nginx.conf 没有配置 `index index.php;`, 请加上.__
+
 ### php.ini 配置
 
 __`short_open_tag` 必须启用!__
@@ -54,6 +56,8 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 	location /phpssdbadmin {
 		try_files $uri $uri/ /phpssdbadmin/index.php?$args;
 	}
+
+__Your nginx.conf must set `index index.php`.__
 
 ### php.ini configuration
 
