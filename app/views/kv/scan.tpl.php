@@ -1,7 +1,7 @@
 <h2>Type: KV</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('kv/set')?>">
+	<a class="btn btn-xs btn-primary" href="<?php echo _url('kv/set')?>">
 		<i class="glyphicon glyphicon-plus"></i>
 		Add
 	</a>
@@ -10,26 +10,28 @@
 <div style="float: right;">
 <form method="get">
 	Start:
-	<input type="text" name="s" value="<?=htmlspecialchars($s)?>" />
+	<input type="text" name="s" value="<?php echo htmlspecialchars($s)?>" />
 	Size:
 	<select name="size">
-		<option value="10" <?=$size==10?'selected="selected"':''?>>10</option>
-		<option value="20" <?=$size==20?'selected="selected"':''?>>20</option>
-		<option value="50" <?=$size==50?'selected="selected"':''?>>50</option>
-		<option value="100" <?=$size==100?'selected="selected"':''?>>100</option>
-		<option value="200" <?=$size==200?'selected="selected"':''?>>200</option>
+		<option value="10" <?php echo $size==10?'selected="selected"':''?>>10</option>
+		<option value="20" <?php echo $size==20?'selected="selected"':''?>>20</option>
+		<option value="50" <?php echo $size==50?'selected="selected"':''?>>50</option>
+		<option value="100" <?php echo $size==100?'selected="selected"':''?>>100</option>
+		<option value="200" <?php echo $size==200?'selected="selected"':''?>>200</option>
 	</select>
 	<button type="submit" class="btn btn-xs btn-primary">Query</button>
 </form>
 </div>
 
-<table class="table table-striped" id="data_list">
+<div style="clear: both; line-height: 0px; height: 0px;"></div>
+
+<table class="table table-striped table-hover" id="data_list">
 <thead>
 	<tr>
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
 		<th>Key</th>
 		<th>Value</th>
-		<th width="80">Action</th>
+		<th width="60">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -42,13 +44,13 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('kv/get', array('k'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
-		<td><?=$v?></td>
+		<td><a href="<?php echo _url('kv/get', array('k'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
+		<td><?php echo $v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?=_url('kv/set', array('k'=>$k))?>" title="Edit">
+			<a class="btn btn-xs btn-primary" href="<?php echo _url('kv/set', array('k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('kv/del', array('k'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?php echo _url('kv/del', array('k'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -92,7 +94,7 @@ function edit_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/set'))?> + '?' + $.param({k: ks});
+	var url = <?php echo json_encode(_url('kv/set'))?> + '?' + $.param({k: ks});
 	location.href = url;
 }
 
@@ -102,7 +104,7 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('kv/del'))?> + '?' + $.param({k: ks});
+	var url = <?php echo json_encode(_url('kv/del'))?> + '?' + $.param({k: ks});
 	location.href = url;
 }
 </script>
@@ -119,7 +121,7 @@ function remove_selected(){
 		$start = $ks[0];
 		$url = _url('kv/scan', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
-		<a class="btn btn-sm btn-primary" href="<?=$url?>">
+		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
 		</a>
 	<?php } ?>
@@ -134,7 +136,7 @@ function remove_selected(){
 		$start = $ks[count($ks)-1];
 		$url = _url('kv/scan', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
-		<a class="btn btn-sm btn-primary" href="<?=$url?>">
+		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>
 		</a>
 	<?php } ?>

@@ -1,11 +1,11 @@
 <p><b>List:</b></p>
 
-<?=htmlspecialchars($n)?>
+<?php echo htmlspecialchars($n)?>
 
 <p><b>Index:</b></p>
 
-<?=htmlspecialchars($k)?>
+<?php echo htmlspecialchars($k)?>
 
 <p><b>Item:</b></p>
 
-<?=htmlspecialchars($v)?>
+<?php echo htmlspecialchars($v)?>

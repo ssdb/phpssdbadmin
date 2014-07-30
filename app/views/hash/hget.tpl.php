@@ -1,11 +1,11 @@
 <p><b>Hash:</b></p>
 
-<?=htmlspecialchars($n)?>
+<?php echo htmlspecialchars($n)?>
 
 <p><b>Key:</b></p>
 
-<?=htmlspecialchars($k)?>
+<?php echo htmlspecialchars($k)?>
 
 <p><b>Value:</b></p>
 
-<?=htmlspecialchars($v)?>
+<?php echo htmlspecialchars($v)?>

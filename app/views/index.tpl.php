@@ -7,11 +7,11 @@
 <table class="table table-striped">
 <?php foreach($info as $k=>$v){ ?>
 <tr>
-	<td width="150"><?=$k?></td>
+	<td width="150"><?php echo $k?></td>
 	<?php if($k == 'leveldb.stats'){ ?>
-		<td><pre><?=$v?></pre></td>
+		<td><pre><?php echo $v?></pre></td>
 	<?php }else{ ?>
-		<td><?=$v?></td>
+		<td><?php echo $v?></td>
 	<?php } ?>
 </tr>
 <?php } ?>

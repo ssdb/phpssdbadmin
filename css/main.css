@@ -68,6 +68,28 @@ img{
 	width: 100%;
 }
 
+
+.table{
+	margin-top: 10px !important;
+	border-bottom: 1px solid #ddd !important;
+}
+.table th{
+	padding: 4px !important;
+	background: #cef !important;
+	border-top: 1px solid #ddd !important;
+	border-bottom: none !important;
+}
+.table td{
+	padding: 5px 4px !important;
+	border-top: 1px solid #ddd !important;
+	border: none !important;
+}
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #f6f6f6 !important;
+}
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #ffc !important;
+}
 /************* PagerView **************/
 .PagerView{
 	font-size: 12px;

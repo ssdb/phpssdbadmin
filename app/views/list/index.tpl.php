@@ -1,7 +1,7 @@
 <h2>Type: List</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?=_url('list/qpush')?>">
+	<a class="btn btn-xs btn-primary" href="<?php echo _url('list/qpush')?>">
 		<i class="glyphicon glyphicon-plus"></i>
 		Push
 	</a>
@@ -10,27 +10,29 @@
 <div style="float: right;">
 <form method="get">
 	Start:
-	<input type="text" name="s" value="<?=htmlspecialchars($s)?>" />
+	<input type="text" name="s" value="<?php echo htmlspecialchars($s)?>" />
 	Size:
 	<select name="size">
-		<option value="10" <?=$size==10?'selected="selected"':''?>>10</option>
-		<option value="20" <?=$size==20?'selected="selected"':''?>>20</option>
-		<option value="50" <?=$size==50?'selected="selected"':''?>>50</option>
-		<option value="100" <?=$size==100?'selected="selected"':''?>>100</option>
-		<option value="200" <?=$size==200?'selected="selected"':''?>>200</option>
+		<option value="10" <?php echo $size==10?'selected="selected"':''?>>10</option>
+		<option value="20" <?php echo $size==20?'selected="selected"':''?>>20</option>
+		<option value="50" <?php echo $size==50?'selected="selected"':''?>>50</option>
+		<option value="100" <?php echo $size==100?'selected="selected"':''?>>100</option>
+		<option value="200" <?php echo $size==200?'selected="selected"':''?>>200</option>
 	</select>
 	<button type="submit" class="btn btn-xs btn-primary">Query</button>
 </form>
 </div>
 
+<div style="clear: both; line-height: 0px; height: 0px;"></div>
 
-<table class="table table-striped" id="data_list">
+
+<table class="table table-striped table-hover" id="data_list">
 <thead>
 	<tr>
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
 		<th>List</th>
 		<th>Size</th>
-		<th width="80">Action</th>
+		<th width="60">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -43,13 +45,13 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?=_url('list/qrange', array('n'=>$k))?>"><?=htmlspecialchars($k)?></a></td>
-		<td><?=$v?></td>
+		<td><a href="<?php echo _url('list/qrange', array('n'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
+		<td><?php echo $v?></td>
 		<td>
-			<a class="btn btn-xs btn-info" href="<?=_url('list/qpop', array('n'=>$k))?>" title="Pop Items">
+			<a class="btn btn-xs btn-info" href="<?php echo _url('list/qpop', array('n'=>$k))?>" title="Pop Items">
 				<i class="glyphicon glyphicon-minus"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?=_url('list/qclear', array('n'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?php echo _url('list/qclear', array('n'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -89,7 +91,7 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?=json_encode(_url('list/qclear'))?> + '?' + $.param({n: ks});
+	var url = <?php echo json_encode(_url('list/qclear'))?> + '?' + $.param({n: ks});
 	location.href = url;
 }
 </script>
@@ -106,7 +108,7 @@ function remove_selected(){
 		$start = $ks[0];
 		$url = _url('list', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
-		<a class="btn btn-sm btn-primary" href="<?=$url?>">
+		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
 		</a>
 	<?php } ?>
@@ -121,7 +123,7 @@ function remove_selected(){
 		$start = $ks[count($ks)-1];
 		$url = _url('list', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
-		<a class="btn btn-sm btn-primary" href="<?=$url?>">
+		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>
 		</a>
 	<?php } ?>

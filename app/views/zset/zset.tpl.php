@@ -1,9 +1,10 @@
 <h2>Add or Update ZSET type record(s)</h2>
 
 <form role="form" method="post">
-	<input type="hidden" name="jump" value="<?=htmlspecialchars($jump)?>" />
+	<input type="hidden" name="jump" value="<?php echo htmlspecialchars($jump)?>" />
 
 	<table class="table table-striped" id="new_table">
+	<thead>
 		<tr>
 			<th>Zset</th>
 			<th>Key</th>
@@ -14,17 +15,20 @@
 				</a>
 			</th>
 		</tr>
+	</thead>
+	<tbody>
 		<?php foreach($kvs as $k=>$v){ ?>
 		<tr class="item">
 			<?php if($n){ ?>
-				<td><input name="n[]" class="form-control" type="text" readonly="readonly" value="<?=htmlspecialchars($n)?>" /></td>
+				<td><input name="n[]" class="form-control" type="text" readonly="readonly" value="<?php echo htmlspecialchars($n)?>" /></td>
 			<?php }else{ ?>
 				<td><input name="n[]" class="form-control" type="text" /></td>
 			<?php } ?>
-			<td><input name="k[]" value="<?=htmlspecialchars($k)?>" class="form-control" type="text" /></td>
-			<td><input name="v[]" class="form-control" type="text" value="<?=htmlspecialchars($v)?>" /></td>
+			<td><input name="k[]" value="<?php echo htmlspecialchars($k)?>" class="form-control" type="text" /></td>
+			<td><input name="v[]" class="form-control" type="text" value="<?php echo htmlspecialchars($v)?>" /></td>
 		</tr>
 		<?php } ?>
+	</tbody>
 	</table>
 
 	

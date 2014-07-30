@@ -22,17 +22,6 @@ phpssdbadmin
 
 __注意: 如果你的 nginx.conf 没有配置 `index index.php;`, 请加上.__
 
-### php.ini 配置
-
-__`short_open_tag` 必须启用!__
-
-编辑 `php.ini`, 查找 `short_open_tag`, 如果没有, 则加入下面一行, 如果有, 修改为
-
-	short_open_tag = On
-
-注意, 行的前面不要有分号或者其它字符!
-
-
 
 
 phpssdbadmin
@@ -59,15 +48,6 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 
 __Your nginx.conf must set `index index.php`.__
 
-### php.ini configuration
-
-__`short_open_tag` MUST be open!__
-
-Edit `php.ini`, find `short_open_tag`, if there is none, add the line below, if any, modify it to
-
-	short_open_tag = On
-
-Attention, do not put any ';' mark or any other charcters before it!
 
 
 ## Screeshots
