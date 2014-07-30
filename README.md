@@ -18,9 +18,17 @@ phpssdbadmin
 		try_files $uri $uri/ /phpssdbadmin/index.php?$args;
 	}
 
-如果你使用的是 Apache 的话, 自己将上面的规则改成 Apache 格式.
-
 __注意: 如果你的 nginx.conf 没有配置 `index index.php;`, 请加上.__
+
+如果你使用的是 Apache 的话, 你可以试试这条 URL 重写规则.
+
+	<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /phpssdbadmin/
+	RewriteCond %{REQUEST_FILENAME} !-f 
+	RewriteCond %{REQUEST_FILENAME} !-d 
+	RewriteRule . /phpssdbadmin/index.php [L] 
+	</IfModule>
 
 
 
@@ -47,6 +55,16 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 	}
 
 __Your nginx.conf must set `index index.php`.__
+
+If you are using Apache, try this URL rewrite rule:
+
+	<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /phpssdbadmin/
+	RewriteCond %{REQUEST_FILENAME} !-f 
+	RewriteCond %{REQUEST_FILENAME} !-d 
+	RewriteRule . /phpssdbadmin/index.php [L] 
+	</IfModule>
 
 
 
