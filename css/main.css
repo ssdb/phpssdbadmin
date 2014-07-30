@@ -71,12 +71,12 @@ img{
 
 .table{
 	margin-top: 10px !important;
+	border-top: 1px solid #ddd !important;
 	border-bottom: 1px solid #ddd !important;
 }
 .table th{
 	padding: 4px !important;
 	background: #cef !important;
-	border-top: 1px solid #ddd !important;
 	border-bottom: none !important;
 }
 .table td{
