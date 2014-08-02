@@ -33,7 +33,7 @@
 
 <script>
 function add_row(){
-	var t = $($('#new_table tr.item')[0]).clone();
+	var t = $('#new_table tr.item:first').clone();
 	t.find('.form-control').val('');
 	$('#new_table').append(t);
 }

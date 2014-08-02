@@ -46,7 +46,7 @@
 
 <script>
 function add_row(){
-	var t = $($('#new_table tr.item')[0]).clone();
+	var t = $('#new_table tr.item:first').clone();
 	t.find('.form-control:not([readonly])').val('');
 	t.find('select').val($($('#new_table tr.item select')[0]).val());
 	$('#new_table').append(t);
