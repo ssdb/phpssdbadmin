@@ -2,12 +2,12 @@
 
 <hr/>
 
-<h3>Server Info</h3>
+<h3>Server Info - <?php echo $conf['host'] . ':' . $conf['port']?></h3>
 
 <table class="table table-striped">
 <?php foreach($info as $k=>$v){ ?>
 <tr>
-	<td width="150"><?php echo $k?></td>
+	<td width="140"><?php echo $k?></td>
 	<?php if($k == 'leveldb.stats'){ ?>
 		<td><pre><?php echo $v?></pre></td>
 	<?php }else{ ?>

@@ -9,6 +9,7 @@ class IndexController extends BaseController
 			$tmp[$info[$i]] = $info[$i + 1];
 		}
 		$ctx->info = $this->parse_info($tmp);
+		$ctx->conf = App::$config['ssdb'];
 	}
 	
 	private function parse_info($info){
