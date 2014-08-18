@@ -3,7 +3,7 @@ phpssdbadmin
 
 ## 安装
 
-编辑 `app/config/config.conf`:
+编辑 `app/config/config.php`:
 
 	'ssdb' => array(
 		'host' => '127.0.0.1',
