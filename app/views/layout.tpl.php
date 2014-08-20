@@ -27,6 +27,9 @@
 			<li><a href="<?php echo _url('list')?>">list</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
+		<?php if($user){ ?>
+			<li><a href="<?php echo _url('logout')?>">Logout</a></li>
+		<?php } ?>
 			<li><a target="_blank" href="http://ssdb.io?psa">ssdb.io</a></li>
 			<li><a target="_blank" href="https://github.com/ssdb/phpssdbadmin">psa</a></li>
 		</ul>

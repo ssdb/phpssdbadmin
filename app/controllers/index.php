@@ -23,4 +23,9 @@ class IndexController extends BaseController
 		$info['disk_usage'] = $disk_usage . ' MB';
 		return $info;
 	}
+	
+	function logout($ctx){
+		unset($_SESSION['login_user']);
+		_redirect('login');
+	}
 }

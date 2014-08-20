@@ -14,4 +14,8 @@ return array(
 		'host' => '127.0.0.1',
 		'port' => '8888',
 	),
+	'login' => array(
+		'name' => 'test',
+		'password' => '12345678', // at least 6 characters
+	),
 );

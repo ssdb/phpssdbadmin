@@ -4,6 +4,13 @@ class BaseController extends Controller
 	protected $ssdb;
 	
 	function init($ctx){
+		session_start();
+		$ctx->user =$_SESSION['login_user'];
+		if(!$ctx->user){
+			_redirect('login');
+			return;
+		}
+
 		$conf = App::$config['ssdb'];
 		$this->ssdb = new SimpleSSDB($conf['host'], $conf['port']);
 		
