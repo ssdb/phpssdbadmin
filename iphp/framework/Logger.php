@@ -108,8 +108,9 @@ class Logger{
 			$c_file = basename($bt[2]['file']);
 			$c_line = $bt[2]['line'];
 
-			$line = sprintf("%s [%-5s] [%s] [%s:%s] - %s\n", $time, $level, $cip, $c_file, $c_line, $msg);
+			$line = sprintf("%s [%-5s] [%s] [%s:%s] %s\n", $time, $level, $cip, $c_file, $c_line, $msg);
 			file_put_contents($filename, $line, FILE_APPEND);
+			@chmod($filename, 0666);
 		}
 	}
 

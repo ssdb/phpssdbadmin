@@ -20,22 +20,6 @@ class Db{
 		return $db;
 	}
 	
-	static function begin(){
-		return self::instance()->begin();
-	}
-	
-	static function commit(){
-		return self::instance()->commit();
-	}
-	
-	static function rollback(){
-		return self::instance()->rollback();
-	}
-	
-	static function query($sql){
-		return self::instance()->query($sql);
-	}
-	
 	static function get_num($sql){
 		$result = self::query($sql);
 		if($row = mysql_fetch_array($result)){
@@ -45,7 +29,20 @@ class Db{
 		}
 	}
 	
-	static function last_insert_id(){
-		return self::instance()->last_insert_id();
+	static function update($sql){
+		self::query($sql);
+		return self::instance()->affected_rows();
+	}
+	
+	static function escape($val){
+		return self::instance()->escape($val);
+	}
+	
+	static function escape_like_string($val){
+		return self::instance()->escape_like_string($val);
+	}
+
+	static function __callStatic($cmd, $params=array()){
+		return call_user_func_array(array(self::instance(), $cmd), $params);
 	}
 }

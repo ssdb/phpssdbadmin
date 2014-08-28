@@ -44,6 +44,10 @@ class Mysql{
 		$this->query_list[] = $time . ' ' . $sql;
 		return $result;
 	}
+	
+	function affected_rows(){
+		return mysql_affected_rows($this->conn);
+	}
 
 	/**
 	 * 执行 SQL 语句, 返回结果的第一条记录(是一个对象).
@@ -145,7 +149,11 @@ class Mysql{
 	function save($table, &$row){
 		$sqlA = array();
 		foreach($row as $k=>$v){
-			$sqlA[] = "`$k` = '$v'";
+			if($v === NULL){
+				$sqlA[] = "`$k` = NULL";
+			}else{
+				$sqlA[] = "`$k` = '$v'";
+			}
 		}
 		$sqlA = join(',', $sqlA);
 
@@ -166,7 +174,11 @@ class Mysql{
 	function replace($table, &$row){
 		$sqlA = array();
 		foreach($row as $k=>$v){
-			$sqlA[] = "`$k` = '$v'";
+			if($v === NULL){
+				$sqlA[] = "`$k` = NULL";
+			}else{
+				$sqlA[] = "`$k` = '$v'";
+			}
 		}
 		$sqlA = join(',', $sqlA);
 
@@ -189,7 +201,11 @@ class Mysql{
 	function update($table, &$row, $field='id'){
 		$sqlA = array();
 		foreach($row as $k=>$v){
-			$sqlA[] = "`$k` = '$v'";
+			if($v === NULL){
+				$sqlA[] = "`$k` = NULL";
+			}else{
+				$sqlA[] = "`$k` = '$v'";
+			}
 		}
 		$sqlA = join(',', $sqlA);
 
@@ -214,7 +230,9 @@ class Mysql{
 	}
 
 	function escape(&$val){
-		if(is_object($val) || is_array($val)){
+		if($val === NULL){
+			//
+		}else if(is_object($val) || is_array($val)){
 			$this->escape_row($val);
 		}else if(is_string($val)){
 			$val = mysql_real_escape_string($val);
@@ -225,11 +243,11 @@ class Mysql{
 	function escape_row(&$row){
 		if(is_object($row)){
 			foreach($row as $k=>$v){
-				$row->$k = mysql_real_escape_string($v);
+				$row->$k = $this->escape($v);
 			}
 		}else if(is_array($row)){
 			foreach($row as $k=>$v){
-				$row[$k] = mysql_real_escape_string($v);
+				$row[$k] = $this->escape($v);
 			}
 		}
 		return $row;

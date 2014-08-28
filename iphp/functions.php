@@ -21,7 +21,7 @@ function base_path(){
 function secure_path($path){
 	$path = preg_replace('/[\.]+/', '.', $path);
 	$path = preg_replace('/[\/]+/', '/', $path);
-	$path = str_replace('./', '', $path);
+	$path = str_replace(array('./', '\'', '"', '<', '>'), '', $path);
 	return $path;
 }
 
@@ -44,7 +44,7 @@ function ip(){
 function _view(){
 	foreach(include_paths() as $path){
 		// 由 Controller 指定模板的名字
-		if(App::$controller->action){
+		if(App::$controller->action && App::$controller->action != 'index'){
 			$action = App::$controller->action;
 		}else{
 			$action = $path['action'];
@@ -70,15 +70,17 @@ function _view(){
 }
 
 function _widget($name, $params=array()){
+	$ps = explode('/', App::$controller->module);
 	foreach(App::$controller->view_path as $view_path){
-		$dir = APP_PATH . "/$view_path/" . App::$controller->module;
-		$file = $dir . "/$name.tpl.php";
-		if(file_exists($file)){
-			foreach($params as $k=>$v){
-				$$k = $v;
+		for($i=count($ps); $i>=0; $i--){
+			$dir = join('/', array_slice($ps, 0, $i));
+			$dir = APP_PATH . "/$view_path/$dir/";
+			$file = $dir . "$name.tpl.php";
+			if(file_exists($file)){
+				extract($params);
+				include($file);
+				return;
 			}
-			include($file);
-			return;
 		}
 	}
 }
@@ -88,6 +90,7 @@ function _redirect($url, $params=array()){
 	App::$finish = true;
 	$url = Html::link($url, $params);
 	header("Location: $url");
+	App::_break();
 }
 
 function _url($url='', $params=array()){
@@ -100,6 +103,7 @@ function _image($url){
 	return "<img src=\"$url\" />";
 }
 
+// 从数组列表中, 使用 k_attr 和 v_attr 指定的字段, 组成一个关联数组.
 function _kvs($arr_arr, $k_attr, $v_attr){
 	$kvs = array();
 	foreach($arr_arr as $arr){
@@ -119,14 +123,24 @@ function _render($name){
 	App::$controller->action = $name;
 }
 
+/**
+ * 用于生成指向 module#action 的 URL
+ * @param string action 动作的名字
+ * @param mixed m Model 对象的实例, 或者是参数数组
+ * @param string module 如果不指定, 则为当前的 controller
+ */
 function _action($action, $m=null, $module=null){
-	$params = array();
+	if(is_array($m)){
+		$params = $m;
+	}else{
+		$params = array();
+	}
 	if($action == 'view'){
 		$action = $m->id;
 	}else if($action == 'list'){
 		$action = '';
 	}else{
-		if($m){
+		if(is_object($m)){
 			$params['id'] = $m->id;
 		}
 	}
@@ -168,4 +182,8 @@ function _days_from_now($date){
 
 function _days_until_now($date){
 	return -_days_from_now($date);
+}
+
+function _throw($msg, $code=0){
+	throw new Exception($msg, $code);
 }

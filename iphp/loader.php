@@ -67,6 +67,7 @@ function load_controller($base, $action){
 		
 		$found = false;
 		if(method_exists($ins, $action)){
+			$ins->action = $action;
 			$found = true;
 		}
 		if($found){
@@ -83,6 +84,9 @@ function route(){
 		$action = $path['action'];
 		$controller = load_controller($base, $action);
 		if($controller){
+			if(strpos($base, '/index') === strlen($base) - 6){
+				$base = substr($base, 0, strlen($base) - 6);
+			}
 			$controller->module = ($base == 'index')? '' : $base;
 			break;
 		}

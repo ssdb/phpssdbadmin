@@ -21,7 +21,7 @@ class Model
 	}
 
 	function __construct($table_name=null){
-		if($table_name === null && $this->table_name === false){
+		if($table_name === null && static::$table_name === false){
 			$table_name = self::table();
 		}
 		if($table_name){
@@ -37,7 +37,6 @@ class Model
 		}
 		return $this->$name;
 	}
-	static $t = 123;
 
 	static function get($id){
 		$row = self::db()->load(static::table(), $id);
@@ -136,6 +135,27 @@ class Model
 			$ret[$k] = self::_model($v);
 		}
 		return $ret;
+	}
+	
+	static function findOne($where='', $order=''){
+		$rs = self::find(0, 1, $where, $order);
+		if($rs){
+			return $rs[0];
+		}
+		return null;
+	}
+	
+	static function delete($id){
+		return self::db()->remove(self::table(), $id);
+	}
+	
+	static function deleteByWhere($where){
+		$table = self::table();
+		$sql = "delete from $table where 1";
+		if($where){
+			$sql .= " and $where";
+		}
+		return self::db()->query($sql);
 	}
 }
 

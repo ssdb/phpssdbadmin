@@ -4,9 +4,13 @@ class Controller
 	public $module = '';
 	public $action = '';
 	public $layout = '';
+	public $is_ajax = false;
 	public $view_path = array('views');
 
 	function init($ctx){
+	}
+	
+	function index($ctx){
 	}
 	
 	function _view($m){
