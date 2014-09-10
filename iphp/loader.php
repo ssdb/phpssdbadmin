@@ -9,14 +9,19 @@ $AUTOLOAD_PATH =  array(
 	APP_PATH . '/classes',
 );
 
-function __autoload($class_name){
+function __autoload($cls){
 	global $AUTOLOAD_PATH;
 	foreach($AUTOLOAD_PATH as $dir){
-		$file = $dir . '/' . $class_name . '.php';
+		$file = $dir . '/' . $cls . '.php';
 		if(file_exists($file)){
 			require_once($file);
+			break;
 		}
 	}
+	// 有很多代码会使用 class_exists(), 需要和它们兼容, 所以不能在这里 throw
+#	if(!class_exists($cls, false)){
+#		throw new Exception("Class $cls not found!");
+#	}
 }
 
 function include_paths(){
@@ -63,6 +68,9 @@ function load_controller($base, $action){
 		$ps = explode('/', $base);
 		$controller = ucfirst($ps[count($ps) - 1]);
 		$cls = "{$controller}Controller";
+		if(!class_exists($cls)){
+			throw new Exception("Controller $cls not found!");
+		}
 		$ins = new $cls();
 		
 		$found = false;
@@ -126,16 +134,25 @@ function find_layout_file(){
 	return false;
 }
 
-function find_view_file($base, $action){
-	foreach(App::$controller->view_path as $view_path){
-		$dir = rtrim(APP_PATH . "/$view_path/$base", '/');
-		if($action == 'index'){
-			$file = $dir . '.tpl.php';
+function find_view_file(){
+	foreach(include_paths() as $path){
+		// 由 Controller 指定模板的名字
+		if(App::$controller->action && App::$controller->action != 'index'){
+			$action = App::$controller->action;
 		}else{
-			$file = $dir . "/$action.tpl.php";
+			$action = $path['action'];
 		}
-		if(file_exists($file)){
-			return $file;
+		$base = $path['base'];
+		foreach(App::$controller->view_path as $view_path){
+			$dir = rtrim(APP_PATH . "/$view_path/$base", '/');
+			if($action == 'index'){
+				$file = $dir . '.tpl.php';
+			}else{
+				$file = $dir . "/$action.tpl.php";
+			}
+			if(file_exists($file)){
+				return $file;
+			}
 		}
 	}
 	return false;

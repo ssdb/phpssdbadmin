@@ -126,5 +126,17 @@ class Html{
 
 		return $url;
 	}
+	
+	static function select($name, $options, $default=''){
+		$html = '';
+		$html .= "<select name=\"$name\">";
+		foreach($options as $k=>$v){
+			$k = trim($k);
+			$sel = strcmp($k, $default)==0? ' selected="selected"' : '';
+			$html .= "<option value=\"$k\"$sel>$v</option>";
+		}
+		$html .= "</select>\n";
+		return $html;
+	}
 }
 

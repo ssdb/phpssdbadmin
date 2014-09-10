@@ -15,11 +15,24 @@ class App{
 
 		self::$config = $config;
 		self::$env = $config['env'];
-		self::$context = new stdClass();
+		#self::$context = new stdClass();
+		self::$context = new Context();
 
 		Logger::init($config['logger']);
 		if($config['db']){
 			Db::init($config['db']);
+		}
+
+		if(get_magic_quotes_gpc()){
+			foreach($_GET as $k=>$v){
+				$_GET[$k] = stripslashes($v);
+			}
+			foreach($_POST as $k=>$v){
+				$_POST[$k] = stripslashes($v);
+			}
+			foreach($_COOKIE as $k=>$v){
+				$_COOKIE[$k] = stripslashes($v);
+			}
 		}
 	}
 	
@@ -34,6 +47,7 @@ class App{
 		}catch(AppBreakException $e){
 			return;
 		}catch(Exception $e){
+			Logger::error($e);
 			if(App::$controller && App::$controller->is_ajax){
 				$code = $e->getCode();
 				$msg = $e->getMessage();
@@ -41,13 +55,7 @@ class App{
 					$msg = 'error';
 				}
 			}else{
-				if($e->getCode() == 404){
-					header('Content-Type: text/html; charset=utf-8', true, 404);
-				}else{
-					header('Content-Type: text/html; charset=utf-8', true, 500);
-				}
-				self::print_error($e);
-				return;
+				return self::error_handle($e);
 			}
 		}
 		
@@ -74,10 +82,7 @@ class App{
 		}else{
 			$layout = find_layout_file();
 			if($layout){
-				$params = array();
-				foreach(App::$context as $k=>$v){
-					$params[$k] = $v;
-				}
+				$params = App::$context->as_array();
 				extract($params);
 				include($layout);
 			}else{
@@ -104,7 +109,60 @@ class App{
 		throw new AppBreakException();
 	}
 	
-	static function print_error($e){
+	private static function find_error_page($code){
+		$pages = array($code, 'default');
+		if(App::$controller){
+			$view_path_list = App::$controller->view_path;
+		}else{
+			$view_path_list = array('views');
+		}
+
+		$path = base_path();
+		foreach($view_path_list as $view_path){
+			$ps = explode('/', $path);
+			while(1){
+				$base = join('/', $ps);
+				if($ps){
+					$dir = APP_PATH . "/$view_path/$base";
+				}else{
+					$dir = APP_PATH . "/$view_path";
+				}
+
+				foreach($pages as $page){
+					$file = "$dir/_error/{$page}.tpl.php";
+					#echo $file . "\n<br/>";
+					if(file_exists($file)){
+						return $file;
+					}
+				}
+				
+				if(!$ps){
+					break;
+				}
+				array_pop($ps);
+			}
+		}
+		return false;
+	}
+	
+	static function error_handle($e){
+		$code = $e->getCode() === 0? 500 : $e->getCode();
+		if($code == 404){
+			header('Content-Type: text/html; charset=utf-8', true, 404);
+		}else if($code == 200){
+			//
+		}else{
+			header('Content-Type: text/html; charset=utf-8', true, 500);
+		}
+		$error_page = self::find_error_page($code);
+		if($error_page !== false){
+			$params = App::$context->as_array();
+			$params['_e'] = $e;
+			extract($params);
+			include($error_page);
+			return;
+		}
+		
 		$msg = htmlspecialchars($e->getMessage());
 		$html = '';
 		$html .= '<html><head>';

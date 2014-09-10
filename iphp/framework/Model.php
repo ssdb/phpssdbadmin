@@ -91,28 +91,31 @@ class Model
 	}
 	
 	static function save($attrs){
-		if(!$attrs['id']){
-			unset($attrs['id']);
-		}
 		$table = self::table();
-		self::db()->escape($attrs);
 		self::db()->save($table, $attrs);
-		return self::get($attrs['id']);
+		$ret = self::get($attrs['id']);
+		if(!$ret){
+			throw new Exception("无法写入数据库");
+		}
+		return $ret;
 	}
 	
 	function update($attrs){
 		$table = self::table();
 		$attrs['id'] = $this->id;
-		self::db()->escape($attrs);
-		self::db()->update($table, $attrs);
+		$ret = self::db()->update($table, $attrs);
 		foreach($attrs as $k=>$v){
 			$this->$k = $v;
 		}
+		return $ret;
+	}
+
+	static function getBy($field, $val){
+		return self::get_by($field, $val);
 	}
 	
-	static function getBy($field, $val){
+	static function get_by($field, $val){
 		$table = self::table();
-		self::db()->escape($val);
 		$row = self::db()->load($table, $val, $field);
 		if(!$row){
 			return null;
@@ -136,8 +139,12 @@ class Model
 		}
 		return $ret;
 	}
-	
+
 	static function findOne($where='', $order=''){
+		return self::find_one($where, $order);
+	}
+	
+	static function find_one($where='', $order=''){
 		$rs = self::find(0, 1, $where, $order);
 		if($rs){
 			return $rs[0];
@@ -148,8 +155,12 @@ class Model
 	static function delete($id){
 		return self::db()->remove(self::table(), $id);
 	}
-	
+
 	static function deleteByWhere($where){
+		return self::delete_by_where($where);
+	}
+	
+	static function delete_by_where($where){
 		$table = self::table();
 		$sql = "delete from $table where 1";
 		if($where){

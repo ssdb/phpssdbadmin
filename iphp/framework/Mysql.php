@@ -101,6 +101,10 @@ class Mysql{
 	 * 执行一条带有结果集计数的 count SQL 语句, 并返该计数.
 	 */
 	public function count($sql){
+		return $this->get_num($sql);
+	}
+	
+	public function get_num($sql){
 		$result = $this->query($sql);
 		if($row = mysql_fetch_array($result)){
 			return (int)$row[0];
@@ -137,6 +141,7 @@ class Mysql{
 	 * @param string $field 字段名, 默认为'id'.
 	 */
 	function load($table, $id, $field='id'){
+		$id = $this->escape($id);
 		$sql = "select * from `{$table}` where `{$field}`='{$id}'";
 		$row = $this->get($sql);
 		return $row;
@@ -147,6 +152,7 @@ class Mysql{
 	 * @param object $row
 	 */
 	function save($table, &$row){
+		$row = $this->escape($row);
 		$sqlA = array();
 		foreach($row as $k=>$v){
 			if($v === NULL){
@@ -160,9 +166,13 @@ class Mysql{
 		$sql  = "insert into `{$table}` set $sqlA";
 		$ret = $this->query($sql);
 		if(is_object($row)){
-			$row->id = $this->last_insert_id();
+			if(!$row->id){
+				$row->id = $this->last_insert_id();
+			}
 		}else if(is_array($row)){
-			$row['id'] = $this->last_insert_id();
+			if(!$row['id']){
+				$row['id'] = $this->last_insert_id();
+			}
 		}
 		return $ret;
 	}
@@ -172,6 +182,7 @@ class Mysql{
 	 * @param object $row
 	 */
 	function replace($table, &$row){
+		$row = $this->escape($row);
 		$sqlA = array();
 		foreach($row as $k=>$v){
 			if($v === NULL){
@@ -199,6 +210,7 @@ class Mysql{
 	 * @param string $field 字段名, 默认为'id'.
 	 */
 	function update($table, &$row, $field='id'){
+		$row = $this->escape($row);
 		$sqlA = array();
 		foreach($row as $k=>$v){
 			if($v === NULL){
@@ -225,6 +237,7 @@ class Mysql{
 	 * @param string $field 字段名, 默认为'id'.
 	 */
 	function remove($table, $id, $field='id'){
+		$id = $this->escape($id);
 		$sql  = "delete from `{$table}` where `{$field}`='{$id}'";
 		return $this->query($sql);
 	}
