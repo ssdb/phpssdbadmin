@@ -1,12 +1,12 @@
 <h2>qrange: <code><?php echo $n?></code></h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?php echo _url('list/qpush', array('n'=>$n))?>">
+	<a class="btn btn-xs btn-primary" href="<?php echo _action('qpush', array('n'=>$n))?>">
 		<i class="glyphicon glyphicon-plus"></i>
 		Push
 	</a>
 	&nbsp;
-	<a class="btn btn-xs btn-danger" href="<?php echo _url('list/qpop', array('n'=>$n))?>">
+	<a class="btn btn-xs btn-danger" href="<?php echo _action('qpop', array('n'=>$n))?>">
 		<i class="glyphicon glyphicon-minus"></i>
 		Pop
 	</a>
@@ -51,10 +51,10 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?php echo _url('list/qget', array('n'=>$n, 'k'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
+		<td><a href="<?php echo _action('qget', array('n'=>$n, 'k'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
 		<td><?php echo $v?></td>
 		<td>
-			<a class="btn btn-xs btn-primary" href="<?php echo _url('list/qget', array('n'=>$n, 'k'=>$k))?>" title="View">
+			<a class="btn btn-xs btn-primary" href="<?php echo _action('qget', array('n'=>$n, 'k'=>$k))?>" title="View">
 				<i class="glyphicon glyphicon-search"></i>
 			</a>
 		</td>
@@ -76,7 +76,7 @@ $(function(){
 	pager.onclick = function(index){
 		var n = <?php echo json_encode($n)?>;
 		var s = (pager.index - 1) * pager.size;
-		var url = <?php echo json_encode(_url('list/qrange'))?> + '?' + $.param({n: n, s: s});
+		var url = <?php echo json_encode(_action('qrange'))?> + '?' + $.param({n: n, s: s});
 		location.href = url;
 	}
 	

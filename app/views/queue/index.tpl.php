@@ -1,7 +1,7 @@
-<h2>Type: List</h2>
+<h2>Type: QUEUE</h2>
 
 <div style="float: left;">
-	<a class="btn btn-xs btn-primary" href="<?php echo _url('list/qpush')?>">
+	<a class="btn btn-xs btn-primary" href="<?php echo _action('qpush')?>">
 		<i class="glyphicon glyphicon-plus"></i>
 		Push
 	</a>
@@ -30,9 +30,9 @@
 <thead>
 	<tr>
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
-		<th>List</th>
+		<th>Queue</th>
 		<th>Size</th>
-		<th width="60">Action</th>
+		<th width="90">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -45,13 +45,16 @@
 	?>
 	<tr>
 		<td><input type="checkbox" class="cb" /></td>
-		<td><a href="<?php echo _url('list/qrange', array('n'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
+		<td><a href="<?php echo _action('qrange', array('n'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
 		<td><?php echo $v?></td>
 		<td>
-			<a class="btn btn-xs btn-info" href="<?php echo _url('list/qpop', array('n'=>$k))?>" title="Pop Items">
+			<a class="btn btn-xs btn-info" href="<?php echo _action('qpush', array('n'=>$k))?>" title="Pop Items">
+				<i class="glyphicon glyphicon-plus"></i>
+			</a>
+			<a class="btn btn-xs btn-info" href="<?php echo _action('qpop', array('n'=>$k))?>" title="Pop Items">
 				<i class="glyphicon glyphicon-minus"></i>
 			</a>
-			<a class="btn btn-xs btn-danger" href="<?php echo _url('list/qclear', array('n'=>$k))?>" title="Remove">
+			<a class="btn btn-xs btn-danger" href="<?php echo _action('qclear', array('n'=>$k))?>" title="Remove">
 				<i class="glyphicon glyphicon-remove"></i>
 			</a>
 		</td>
@@ -91,7 +94,7 @@ function remove_selected(){
 		alert('Select row(s) first!');
 		return;
 	}
-	var url = <?php echo json_encode(_url('list/qclear'))?> + '?' + $.param({n: ks});
+	var url = <?php echo json_encode(_action('qclear'))?> + '?' + $.param({n: ks});
 	location.href = url;
 }
 </script>
@@ -106,7 +109,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('list', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _action('list', array('dir'=>'prev', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -121,7 +124,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('list', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _action('list', array('dir'=>'next', 's'=>$start, 'e'=>'', 'size'=>$size));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

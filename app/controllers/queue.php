@@ -1,5 +1,5 @@
 <?php
-class ListController extends BaseController
+class QueueController extends BaseController
 {
 	function init($ctx){
 		parent::init($ctx);
@@ -111,7 +111,7 @@ class ListController extends BaseController
 		$ctx->kvs = $kvs;
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('list/qrange', array('n'=>$n));
+			$ctx->jump = _action('qrange', array('n'=>$n));
 		}
 	}
 	
@@ -135,7 +135,7 @@ class ListController extends BaseController
 		}
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('list/qrange', array('n'=>$n));
+			$ctx->jump = _action('qrange', array('n'=>$n));
 		}
 	}
 
@@ -158,7 +158,7 @@ class ListController extends BaseController
 		$ctx->ns = $req['n'];
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
-			$ctx->jump = _url('list/qrange', array('n'=>$n));
+			$ctx->jump = _action('qrange', array('n'=>$n));
 		}
 	}
 }

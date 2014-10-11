@@ -24,7 +24,7 @@
 			<li><a href="<?php echo _url('kv/scan')?>">kv</a></li>
 			<li><a href="<?php echo _url('hash')?>">hash</a></li>
 			<li><a href="<?php echo _url('zset')?>">zset</a></li>
-			<li><a href="<?php echo _url('list')?>">list</a></li>
+			<li><a href="<?php echo _url('queue')?>">queue</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 		<?php if($user){ ?>

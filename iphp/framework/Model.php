@@ -101,10 +101,11 @@ class Model
 	}
 	
 	function update($attrs){
+		$tmp = $attrs;
 		$table = self::table();
 		$attrs['id'] = $this->id;
 		$ret = self::db()->update($table, $attrs);
-		foreach($attrs as $k=>$v){
+		foreach($tmp as $k=>$v){
 			$this->$k = $v;
 		}
 		return $ret;

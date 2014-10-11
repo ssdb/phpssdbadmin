@@ -102,7 +102,7 @@ function route(){
 	if(!$controller){
 		$path = base_path();
 		Logger::trace("No route for $path!");
-		throw new Exception("No route for $path!", 404);
+		throw new App404Exception("No route for $path!", 404);
 	}
 	return array($base, $controller, $action);
 }

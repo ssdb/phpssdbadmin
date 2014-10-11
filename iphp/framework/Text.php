@@ -48,7 +48,24 @@ class Text
 		if($xml){
 			$xml = @json_decode(@json_encode($xml));
 		}
+		if($xml){
+			$xml = self::trim_xml_obj($xml);
+		}
 		return $xml;
+	}
+	
+	private static function trim_xml_obj($obj){
+		foreach($obj as $k=>$v){
+			if(is_object($v)){
+				if(count((array)$v) == 0){
+					$v = '';
+				}else{
+					$v = self::trim_xml_obj($v);
+				}
+			}
+			$obj->$k = $v;
+		}
+		return $obj;
 	}
 	
 	static function xml_to_array($str){
@@ -189,5 +206,23 @@ class Text
 				break;
 		}
 		return $text;
+	}
+	
+	static function stripslashes($mixed){
+		if(is_string($mixed)){
+			return stripslashes($mixed);
+		}else if(is_array($mixed)){
+			foreach($mixed as $k=>$v){
+				$mixed[$k] = self::stripslashes($v);
+			}
+			return $mixed;
+		}else if(is_array($mixed)){
+			foreach($mixed as $k=>$v){
+				$mixed->$k = self::stripslashes($v);
+			}
+			return $mixed;
+		}else{
+			return $mixed;
+		}
 	}
 }

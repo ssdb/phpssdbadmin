@@ -25,15 +25,16 @@ class App{
 
 		if(get_magic_quotes_gpc()){
 			foreach($_GET as $k=>$v){
-				$_GET[$k] = stripslashes($v);
+				$_GET[$k] = Text::stripslashes($v);
 			}
 			foreach($_POST as $k=>$v){
-				$_POST[$k] = stripslashes($v);
+				$_POST[$k] = Text::stripslashes($v);
 			}
 			foreach($_COOKIE as $k=>$v){
-				$_COOKIE[$k] = stripslashes($v);
+				$_COOKIE[$k] = Text::stripslashes($v);
 			}
 		}
+		$_REQUEST = $_GET + $_POST + $_COOKIE;
 	}
 	
 	static function run(){
@@ -47,7 +48,6 @@ class App{
 		}catch(AppBreakException $e){
 			return;
 		}catch(Exception $e){
-			Logger::error($e);
 			if(App::$controller && App::$controller->is_ajax){
 				$code = $e->getCode();
 				$msg = $e->getMessage();
@@ -191,5 +191,12 @@ class AppBreakException extends Exception
 {
 	function __construct($msg='', $code=1){
 		parent::__construct($msg, $code);
+	}
+}
+
+class App404Exception extends Exception
+{
+	function __construct($msg='404 Not found'){
+		parent::__construct($msg, 404);
 	}
 }

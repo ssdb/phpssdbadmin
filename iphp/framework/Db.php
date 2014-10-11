@@ -45,4 +45,24 @@ class Db{
 	static function __callStatic($cmd, $params=array()){
 		return call_user_func_array(array(self::instance(), $cmd), $params);
 	}
+	
+	static function build_in_string($val){
+		if(is_string($val)){
+			$val = explode(',', $val);
+		}else if(is_array($val)){
+			//
+		}else{
+			$val = array($val);
+		}
+		$tmp = array();
+		foreach($val as $p){
+			$p = trim($p);
+			if(!strlen($p)){
+				continue;
+			}
+			$p = self::escape($p);
+			$tmp[$p] = $p;
+		}
+		return "'" . join("', '", $tmp) . "'";
+	}
 }

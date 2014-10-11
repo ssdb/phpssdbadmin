@@ -7,15 +7,59 @@ function base_path(){
 			$uri = substr($uri, 0, $pos);
 		}
 		$uri = secure_path($uri);
+		
+		/*
 		if(preg_match('/^(.*)\/(\d+)$/', $uri, $ms)){
 			$uri = $ms[1] . '/view';
 			$_GET['id'] = $ms[2];
 		}
+		*/
+		// URL rewrite
+		$ps = explode('/', $uri);
+		$np = count($ps);
+		if(preg_match('/^\d+$/', $ps[$np-1])){
+			$_GET['id'] = $ps[$np-1];
+			$ps[$np-1] = 'view';
+		}else if($np >= 2 && preg_match('/^\d+$/', $ps[$np-2])){
+			$_GET['id'] = $ps[$np-2];
+			$act = $ps[$np-1];
+			$ps = array_slice($ps, 0, -2);
+			$ps[] = $act;
+		}
+		$uri = join('/', $ps);
+		
 		$basepath = dirname($_SERVER['SCRIPT_NAME']);
 		$path = substr($uri, strlen($basepath));
 		$path = trim(trim($path), '/');
 	}
 	return $path;
+}
+
+function _url($url='', $params=array()){
+	static $special_actions = array('view', 'edit', 'update');
+	if(is_object($params)){
+		$p = array();
+		if(isset($params->id)){
+			$p['id'] = $params->id;
+		}
+		$params = $p;
+	}
+	if(strpos($url, 'http://') === false && strpos($url, 'https://') === false){
+		$ps = explode('/', $url);
+		$act = $ps[count($ps)-1];
+		if(isset($params['id']) && in_array($act, $special_actions)){
+			$ps[count($ps)-1] = $params['id'];
+			if($act != 'view'){
+				$ps[count($ps)] = $act;
+			}
+			unset($params['id']);
+		}else if($act == 'list'){
+			unset($ps[count($ps)-1]);
+		}
+		$url = join('/', $ps);
+	}
+	$url = Html::link($url, $params);
+	return $url;
 }
 
 function secure_path($path){
@@ -74,18 +118,13 @@ function _widget($name, $params=array()){
 function _redirect($url, $params=array()){
 	App::$controller->layout = false;
 	App::$finish = true;
-	$url = Html::link($url, $params);
+	$url = _url($url, $params);
 	header("Location: $url");
 	App::_break();
 }
 
-function _url($url='', $params=array()){
-	$url = Html::link($url, $params);
-	return $url;
-}
-
 function _image($url){
-	$url = Html::link($url);
+	$url = _url($url);
 	return "<img src=\"$url\" />";
 }
 
@@ -118,18 +157,12 @@ function _render($name){
 function _action($action, $m=null, $module=null){
 	if(is_array($m)){
 		$params = $m;
+	}else if(is_object($m)){
+		$params = array('id' => $m->id);
 	}else{
 		$params = array();
 	}
-	if($action == 'view'){
-		$action = $m->id;
-	}else if($action == 'list'){
-		$action = '';
-	}else{
-		if(is_object($m)){
-			$params['id'] = $m->id;
-		}
-	}
+
 	$mod = $module? $module : App::$controller->module;
 	if($action){
 		return _url($mod . '/' . $action, $params);

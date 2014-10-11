@@ -1,7 +1,7 @@
 <form style="text-align: center;" method="post" action="">
 	<input type="hidden" name="jump" value="<?php echo htmlspecialchars($jump)?>" />
 
-	<h2>Clear <?php echo count($ns)?> list(s)?</h2>
+	<h2>Clear <?php echo count($ns)?> queue(s)?</h2>
 
 	<?php foreach($ns as $n){ ?>
 		<input type="hidden" name="n[]" value="<?php echo htmlspecialchars($n)?>" />
