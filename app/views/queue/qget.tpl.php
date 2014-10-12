@@ -6,6 +6,6 @@
 
 <?php echo htmlspecialchars($k)?>
 
-<p><b>Item:</b></p>
+<p><b>Item(<?php echo strlen($v)?> bytes):</b></p>
 
 <?php echo htmlspecialchars($v)?>

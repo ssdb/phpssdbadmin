@@ -2,6 +2,6 @@
 
 <?php echo htmlspecialchars($k)?>
 
-<p><b>Value:</b></p>
+<p><b>Value(<?php echo strlen($v)?> bytes):</b></p>
 
 <?php echo htmlspecialchars($v)?>

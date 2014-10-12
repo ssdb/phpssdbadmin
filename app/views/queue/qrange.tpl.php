@@ -38,12 +38,14 @@
 		<th width="30"><input type="checkbox" onclick="check_all(this)" /></th>
 		<th>Index</th>
 		<th>Item</th>
+		<th>Item Length</th>
 		<th width="60">Action</th>
 	</tr>
 </thead>
 <tbody>
 	<?php
 	foreach($kvs as $k=>$v){
+		$vlen = strlen($v);
 		$v = htmlspecialchars($v);
 		if(strlen($v) > 128){
 			$v = substr($v, 0, 128) . '...';
@@ -53,6 +55,7 @@
 		<td><input type="checkbox" class="cb" /></td>
 		<td><a href="<?php echo _action('qget', array('n'=>$n, 'k'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
 		<td><?php echo $v?></td>
+		<td><?php echo $vlen?></td>
 		<td>
 			<a class="btn btn-xs btn-primary" href="<?php echo _action('qget', array('n'=>$n, 'k'=>$k))?>" title="View">
 				<i class="glyphicon glyphicon-search"></i>
