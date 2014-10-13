@@ -14,6 +14,9 @@ class BaseController extends Controller
 		$conf = App::$config['ssdb'];
 		$this->ssdb = new SimpleSSDB($conf['host'], $conf['port']);
 		
+		if(!empty($conf['password']))
+			$this->ssdb->auth($conf['password']);
+		
 		$req = $_GET + $_POST;
 		if(isset($req['size'])){
 			$ctx->size = intval($req['size']);
