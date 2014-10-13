@@ -13,6 +13,7 @@ return array(
 	'ssdb' => array(
 		'host' => '127.0.0.1',
 		'port' => '8888',
+		//'password' => '11111111',
 	),
 	'login' => array(
 		'name' => 'test',
