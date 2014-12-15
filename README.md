@@ -41,9 +41,11 @@ SSDB Admin Tool Built with PHP.
 
 Edit `app/config/config.conf`:
 
-	'ssdb' => array(
-		'host' => '127.0.0.1',
-		'port' => '8888',
+	'servers' => array(
+		array(
+			'host' => '127.0.0.1',
+			'port' => '8888',
+		),
 	),
 
 Change `host` and `port` to the right values.
