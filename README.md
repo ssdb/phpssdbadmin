@@ -5,9 +5,11 @@ phpssdbadmin
 
 编辑 `app/config/config.php`:
 
-	'ssdb' => array(
-		'host' => '127.0.0.1',
-		'port' => '8888',
+	'servers' => array(
+		array(
+			'host' => '127.0.0.1',
+			'port' => '8888',
+		),
 	),
 
 将 `host` 和 `port` 修改成正确的值.
