@@ -1,4 +1,10 @@
-<h2>hscan: <a href="<?php echo _url('hash/hscan', array('n'=>$n))?>"><code><?php echo $n?></code></a></h2>
+<h2>
+	<a href="<?php echo _url('hash/hscan', array('n'=>$n, 'order'=>'asc'))?>">hscan</a>
+	/
+	<a href="<?php echo _url('hash/hscan', array('n'=>$n, 'order'=>'desc'))?>">hrscan</a>
+	:
+	<code><?php echo $n?></code></a>
+</h2>
 
 <div style="float: left;">
 	<a class="btn btn-xs btn-primary" href="<?php echo _url('hash/hset', array('n'=>$n))?>">
@@ -125,7 +131,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[0];
-		$url = _url('hash/hscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('hash/hscan', array('dir'=>'prev', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size, 'order'=>$order));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			<i class="glyphicon glyphicon-chevron-left"></i> Prev
@@ -140,7 +146,7 @@ function remove_selected(){
 	}else{
 		$ks = array_keys($kvs);
 		$start = $ks[count($ks)-1];
-		$url = _url('hash/hscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size));
+		$url = _url('hash/hscan', array('dir'=>'next', 'n'=>$n, 's'=>$start, 'e'=>'', 'size'=>$size, 'order'=>$order));
 	?>
 		<a class="btn btn-sm btn-primary" href="<?php echo $url?>">
 			Next <i class="glyphicon glyphicon-chevron-right"></i>

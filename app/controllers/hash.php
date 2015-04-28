@@ -52,21 +52,39 @@ class HashController extends BaseController
 		if($dir != 'prev'){
 			$dir = 'next';
 		}
+		$order = trim($_GET['order']);
+		if($order != 'asc'){
+			$order = 'desc';
+		}
 		
 		$ctx->n = $n;
 		$ctx->s = $s;
 		$ctx->e = $e;
 		$ctx->dir = $dir;
+		$ctx->order = $order;
 		$ctx->size = $size;
-		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-			$ctx->kvs = array_reverse($ctx->kvs, true);
+		if($order == 'asc'){
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}else{
-			$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}
 	}
 	
