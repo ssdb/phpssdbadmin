@@ -1,4 +1,5 @@
 <h2>hscan: <a href="<?php echo _url('hash/hscan', array('n'=>$n))?>"><code><?php echo $n?></code></a></h2>
+<h2>hrscan: <a href="<?php echo _url('hash/hrscan', array('n'=>$n))?>"><code><?php echo $n?></code></a></h2>
 
 <div style="float: left;">
 	<a class="btn btn-xs btn-primary" href="<?php echo _url('hash/hset', array('n'=>$n))?>">
