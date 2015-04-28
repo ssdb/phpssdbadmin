@@ -43,33 +43,6 @@ class HashController extends BaseController
 		$ctx->kvs = $tmp;
 	}
 	
-	function hrscan($ctx){
-		$n = trim($_GET['n']);
-		$s = trim($_GET['s']);
-		$e = trim($_GET['e']);
-		$size = $ctx->size;
-		$dir = trim($_GET['dir']);
-		if($dir != 'prev'){
-			$dir = 'next';
-		}
-		
-		$ctx->n = $n;
-		$ctx->s = $s;
-		$ctx->e = $e;
-		$ctx->dir = $dir;
-		$ctx->size = $size;
-		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-			$ctx->kvs = array_reverse($ctx->kvs, true);
-		}else{
-			$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-		}
-	}
-	
 	function hscan($ctx){
 		$n = trim($_GET['n']);
 		$s = trim($_GET['s']);
@@ -79,21 +52,39 @@ class HashController extends BaseController
 		if($dir != 'prev'){
 			$dir = 'next';
 		}
+		$order = trim($_GET['order']);
+		if($order != 'asc'){
+			$order = 'desc';
+		}
 		
 		$ctx->n = $n;
 		$ctx->s = $s;
 		$ctx->e = $e;
 		$ctx->dir = $dir;
+		$ctx->order = $order;
 		$ctx->size = $size;
-		if($dir == 'prev'){
-			$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
-			$ctx->kvs = array_reverse($ctx->kvs, true);
+		if($order == 'asc'){
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}else{
-			$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
-			$ctx->has_more = (count($ctx->kvs) == $size + 1);
-			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			if($dir == 'prev'){
+				$ctx->kvs = $this->ssdb->hscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+				$ctx->kvs = array_reverse($ctx->kvs, true);
+			}else{
+				$ctx->kvs = $this->ssdb->hrscan($n, $s, $e, $size + 1);
+				$ctx->has_more = (count($ctx->kvs) == $size + 1);
+				$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
+			}
 		}
 	}
 	
