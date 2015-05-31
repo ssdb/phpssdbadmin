@@ -498,7 +498,7 @@ class SSDB
 		try{
 			while(true){
 				$ret = @fwrite($this->sock, $s);
-				if($ret == false){
+				if($ret === false || $ret === 0){
 					$this->close();
 					throw new SSDBException('Connection lost');
 				}
