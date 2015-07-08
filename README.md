@@ -20,7 +20,14 @@ phpssdbadmin
 		try_files $uri $uri/ /phpssdbadmin/index.php?$args;
 	}
 
-__注意: 如果你的 nginx.conf 没有配置 `index index.php;`, 请加上.__
+__注意: 如果你还没有配置好 php, 请先配置好 php! 下面是一个示例, 但不保证你能完全理解. 如果你无法理解, 请在搜索引擎上学习如果配置 nginx+php, 谢谢!__
+
+	index index.php;
+	location ~ \.php$ {
+		include        fastcgi_params;
+		fastcgi_pass   127.0.0.1:9000;
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+	}
 
 如果你使用的是 Apache 的话, 你可以试试这条 URL 重写规则.
 
@@ -58,7 +65,15 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 		try_files $uri $uri/ /phpssdbadmin/index.php?$args;
 	}
 
-__Your nginx.conf must set `index index.php`.__
+__Your have to set up nginx+php first!__
+
+	index index.php;
+	location ~ \.php$ {
+		include        fastcgi_params;
+		fastcgi_pass   127.0.0.1:9000;
+		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+	}
+
 
 If you are using Apache, try this URL rewrite rule:
 
