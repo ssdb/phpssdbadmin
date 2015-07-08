@@ -27,7 +27,7 @@
 			<li><a href="<?php echo _url('queue')?>">queue</a></li>
 			<li style="line-height: 40px;">
 				<select name="PHPSSDBADMIN_SERVER">
-				<?php foreach($confs as $k=>$conf){ ?>
+				<?php foreach((array)$confs as $k=>$conf){ ?>
 					<option value="<?=$k?>"<?=$k==$conf_k? ' selected="selected"' : ''?>><?=$k?></option>
 				<?php } ?>
 				</select>
