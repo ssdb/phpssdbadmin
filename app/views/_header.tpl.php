@@ -28,7 +28,7 @@
 			<li style="line-height: 40px;">
 				<select name="PHPSSDBADMIN_SERVER">
 				<?php foreach((array)$confs as $k=>$conf){ ?>
-					<option value="<?=$k?>"<?=$k==$conf_k? ' selected="selected"' : ''?>><?=$k?></option>
+					<option value="<?php echo $k;?>"<?php echo $k==$conf_k? ' selected="selected"' : ''; ?>><?php echo $k; ?></option>
 				<?php } ?>
 				</select>
 			</li>

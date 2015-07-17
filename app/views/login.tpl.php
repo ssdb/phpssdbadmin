@@ -6,7 +6,7 @@
 
 	<?php if($errmsg){ ?>
 	<div class="alert alert-danger">
-        <strong>Error！</strong> <?=$errmsg?>
+        <strong>Error！</strong> <?php echo $errmsg;?>
 	</div>
 	<?php } ?>
 

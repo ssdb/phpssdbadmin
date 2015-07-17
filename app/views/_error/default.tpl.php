@@ -1,5 +1,5 @@
 <?php include(dirname(__FILE__) . '/../_header.tpl.php') ?>
-	<h1><?=htmlspecialchars($_e->getMessage())?></h1>
+	<h1><?php echo htmlspecialchars($_e->getMessage()); ?></h1>
 	<div>
 	<?php
 		$ts = $_e->getTrace();
