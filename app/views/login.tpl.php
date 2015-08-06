@@ -12,10 +12,14 @@
 
 	<form method="post">
 		<div class="form-group">
-			<input autofocus="autofocus" class="form-control" name="name" placeholder="User Name" required="required" type="text" value="" />
+			<input autofocus="autofocus" class="form-control" name="name" placeholder="User Name" required="required" type="text" value="<?php echo $_POST['name']; ?>" />
 		</div>
 		<div class="form-group">
 			<input autocomplete="off" class="form-control" name="password" placeholder="Password" required="required" type="password" value="" />
+		</div>
+		<div class="form-group">
+			<img id="captcha" src="<?php echo _url('/captcha'); ?>" />
+			<input class="form-control" name="verify_code" id="verify_code" type="text" placeholder="Captcha code in the image" />
 		</div>
 
 		<div class="form-group">
@@ -25,3 +29,13 @@
 
 	</div>
 </div>
+
+<script type="text/javascript">
+(function(){
+	$('#captcha').click(function(){
+		var url_base = <?php echo json_encode(_url('/captcha')); ?>;
+		var url = url_base + '?' + (new Date()).getTime();
+		$('#captcha').attr('src', url);
+	});
+})();
+</script>

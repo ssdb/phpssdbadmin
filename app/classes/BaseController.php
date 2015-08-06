@@ -38,6 +38,7 @@ class BaseController extends Controller
 		}else{
 			$conf = $servers[0];
 		}
+		$ctx->conf = $conf;
 		
 		$ctx->conf_k = $conf_k;
 		$ctx->confs = $confs;

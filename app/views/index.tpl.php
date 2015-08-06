@@ -1,4 +1,4 @@
-<h1>PHP SSDB Admin</h1>
+<h1>PHP SSDB Admin - <?php echo file_get_contents(APP_PATH . '/../version'); ?></h1>
 
 <hr/>
 
