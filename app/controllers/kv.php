@@ -38,8 +38,10 @@ class KvController extends BaseController
 	function get($ctx){
 		$k = trim($_GET['k']);
 		$v = $this->ssdb->get($k);
+		$ttl = $this->ssdb->ttl($k);
 		$ctx->k = $k;
 		$ctx->v = $v;
+		$ctx->ttl = $ttl;
 	}
 	
 	function set($ctx){
