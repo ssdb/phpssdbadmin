@@ -33,6 +33,17 @@ class KvController extends BaseController
 			$ctx->has_more = (count($ctx->kvs) == $size + 1);
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 		}
+		
+		//附加 ttl
+		$kvs_ttl = array();
+		
+		foreach($ctx->kvs as $k=>$v)
+		{
+			$kvs_ttl[$k]['v'] = $v;
+			$kvs_ttl[$k]['ttl'] = $this->ssdb->ttl($k)[0];
+		}
+		
+		$ctx->kvs = $kvs_ttl;
 	}
 		
 	function get($ctx){
