@@ -32,14 +32,16 @@
 		<th>Key</th>
 		<th>Value</th>
 		<th>Value Length</th>
+		<th>TTL</th>
 		<th width="60">Action</th>
 	</tr>
 </thead>
 <tbody>
 	<?php
 	foreach($kvs as $k=>$v){
-		$vlen = strlen($v);
-		$v = htmlspecialchars($v);
+		$vlen = strlen($v['v']);
+		$ttl = $v['ttl'];		
+		$v = htmlspecialchars($v['v']);
 		if(strlen($v) > 128){
 			$v = substr($v, 0, 128) . '...';
 		}
@@ -49,6 +51,7 @@
 		<td><a href="<?php echo _url('kv/get', array('k'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
 		<td><?php echo $v?></td>
 		<td><?php echo $vlen?></td>
+		<td><?php echo $ttl?></td>
 		<td>
 			<a class="btn btn-xs btn-primary" href="<?php echo _url('kv/set', array('k'=>$k))?>" title="Edit">
 				<i class="glyphicon glyphicon-pencil"></i>
