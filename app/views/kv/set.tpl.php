@@ -7,8 +7,9 @@
 	<thead>
 		<tr>
 			<th>Key</th>
-			<th>
-				Value
+			<th>Value</th>
+			<th width="80">
+				TTL
 				<a class="btn btn-xs btn-success" onclick="add_row()" style="float: right;">
 					<i class="glyphicon glyphicon-plus"></i>
 				</a>
@@ -20,6 +21,7 @@
 		<tr class="item">
 			<td><input name="k[]" class="form-control" type="text" value="<?php echo htmlspecialchars($k)?>" /></td>
 			<td><textarea name="v[]" class="form-control"><?php echo htmlspecialchars($v)?></textarea></td>
+			<td><input name="ttl[]" class="form-control" type="text" value="<?php echo $ttls[$k]?>" /></td>
 		</tr>
 		<?php } ?>
 	</tbody>

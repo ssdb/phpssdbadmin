@@ -39,9 +39,9 @@
 <tbody>
 	<?php
 	foreach($kvs as $k=>$v){
-		$vlen = strlen($v['v']);
-		$ttl = $v['ttl'];		
-		$v = htmlspecialchars($v['v']);
+		$vlen = strlen($v);
+		$ttl = $ttls[$k];		
+		$v = htmlspecialchars($v);
 		if(strlen($v) > 128){
 			$v = substr($v, 0, 128) . '...';
 		}

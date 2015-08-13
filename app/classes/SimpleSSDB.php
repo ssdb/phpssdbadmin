@@ -12,6 +12,10 @@ class SSDBException extends Exception
 {
 }
 
+class SSDBTimeoutException extends SSDBException
+{
+}
+
 /**
  * All methods(except *exists) returns false on error,
  * so one should use Identical(if($ret === false)) to test the return value.
@@ -79,6 +83,12 @@ class SSDB
 		if(function_exists('stream_set_chunk_size')){
 			@stream_set_chunk_size($this->sock, 1024 * 1024);
 		}
+	}
+	
+	function set_timeout($timeout_ms){
+		$timeout_sec = intval($timeout_ms/1000);
+		$timeout_usec = ($timeout_ms - $timeout_sec * 1000) * 1000;
+		@stream_set_timeout($this->sock, $timeout_sec, $timeout_usec);
 	}
 	
 	/**
@@ -297,6 +307,7 @@ class SSDB
 			return new SSDB_Response($resp[0], $errmsg);
 		}
 		switch($cmd){
+			case 'dbsize':
 			case 'ping':
 			case 'qset':
 			case 'getbit':
@@ -341,6 +352,8 @@ class SSDB
 			case 'zsum':
 			case 'zremrangebyrank':
 			case 'zremrangebyscore':
+			case 'ttl':
+			case 'expire':
 				if($resp[0] == 'ok'){
 					$val = isset($resp[1])? intval($resp[1]) : 0;
 					return new SSDB_Response($resp[0], $val);
@@ -460,6 +473,8 @@ class SSDB
 			case 'multi_get':
 			case 'multi_hget':
 			case 'multi_zget':
+			case 'zpop_front':
+			case 'zpop_back':
 				if($resp[0] == 'ok'){
 					if(count($resp) % 2 == 1){
 						$data = array();
@@ -529,8 +544,12 @@ class SSDB
 					$data = '';
 				}
 				if($data === false || $data === ''){
-					$this->close();
-					throw new SSDBException('Connection lost');
+					if(feof($this->sock)){
+						$this->close();
+						throw new SSDBException('Connection lost');
+					}else{
+						throw new SSDBTimeoutException('Connection timeout');
+					}
 				}
 				$this->recv_buf .= $data;
 #				echo "read " . strlen($data) . " total: " . strlen($this->recv_buf) . "\n";

@@ -34,29 +34,29 @@ class KvController extends BaseController
 			$ctx->kvs = array_slice($ctx->kvs, 0, $size, true);
 		}
 		
-		//附加 ttl
-		$kvs_ttl = array();
-		
-		foreach($ctx->kvs as $k=>$v)
-		{
-			$kvs_ttl[$k]['v'] = $v;
-			$kvs_ttl[$k]['ttl'] = $this->ssdb->ttl($k)[0];
+		$ttls = array();
+		foreach($ctx->kvs as $k=>$v){
+			$ttls[$k] = $this->ssdb->ttl($k);
 		}
-		
-		$ctx->kvs = $kvs_ttl;
+		$ctx->ttls = $ttls;
 	}
 		
 	function get($ctx){
 		$k = trim($_GET['k']);
 		$v = $this->ssdb->get($k);
-		$ttl = $this->ssdb->ttl($k); //an Array
+		$ttl = $this->ssdb->ttl($k);
 		$ctx->k = $k;
 		$ctx->v = $v;
-		$ctx->ttl = $ttl[0];
+		$ctx->ttl = $ttl;
 	}
 	
 	function set($ctx){
 		if($_POST){
+			$ttls = $_POST['ttl'];
+			if(!is_array($ttls)){
+				$ttls = array();
+			}
+			
 			$arr = array();
 			foreach($_POST['k'] as $index=>$k){
 				$k = trim($k);
@@ -65,6 +65,11 @@ class KvController extends BaseController
 				}
 				$v = $_POST['v'][$index];
 				$arr[$k] = $v;
+				
+				$ttl = $_POST['ttl'][$index];
+				if($ttl != -1){
+					$this->ssdb->expire($k, $ttl);
+				}
 			}
 			if($arr){
 				$this->ssdb->multi_set($arr);
@@ -84,6 +89,12 @@ class KvController extends BaseController
 			$kvs = $this->ssdb->multi_get($ks);
 		}
 		$ctx->kvs = $kvs;
+		
+		$ttls = array();
+		foreach($ctx->kvs as $k=>$v){
+			$ttls[$k] = $this->ssdb->ttl($k);
+		}
+		$ctx->ttls = $ttls;
 
 		$ctx->jump = $_SERVER['HTTP_REFERER'];
 		if(!$ctx->jump){
