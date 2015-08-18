@@ -40,6 +40,10 @@ __注意: 如果你还没有配置好 php, 请先配置好 php! 下面是一个�
 	</IfModule>
 
 
+### PHP 模块依赖
+
+* php-gd
+
 
 phpssdbadmin
 ============
@@ -85,6 +89,10 @@ If you are using Apache, try this URL rewrite rule:
 	RewriteRule . /phpssdbadmin/index.php [L] 
 	</IfModule>
 
+
+### PHP module dependency
+
+* php-gd
 
 
 ## Screeshots
