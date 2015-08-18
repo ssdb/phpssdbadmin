@@ -10,9 +10,9 @@
 	</div>
 	<?php } ?>
 
-	<form method="post">
+	<form method="post" onsubmit="return false;">
 		<div class="form-group">
-			<input autofocus="autofocus" class="form-control" name="name" placeholder="User Name" required="required" type="text" value="<?php echo $_POST['name']; ?>" />
+			<input autofocus="autofocus" class="form-control" name="name" placeholder="User Name" required="required" type="text" value="<?php echo $name; ?>" />
 		</div>
 		<div class="form-group">
 			<input autocomplete="off" class="form-control" name="password" placeholder="Password" required="required" type="password" value="" />
@@ -23,13 +23,14 @@
 		</div>
 
 		<div class="form-group">
-			<input class="btn btn-lg btn-success btn-block" type="submit" value="Login" />
+			<input class="btn btn-lg btn-success btn-block" type="submit" value="Login" onclick="login()" />
 		</div>
 	</form>
 
 	</div>
 </div>
 
+<script type="text/javascript" src="<?=_url('/js/jsencrypt.min.js')?>"></script>
 <script type="text/javascript">
 (function(){
 	$('#captcha').click(function(){
@@ -38,4 +39,30 @@
 		$('#captcha').attr('src', url);
 	});
 })();
+
+function login(){
+	var encryptData = <?php echo json_encode($encrypt);?>;
+	var encrypt = new JSEncrypt();
+	encrypt.setPublicKey(encryptData.public_key);
+
+	var data = {};
+	data.name = $('input[name=name]').val();
+	data.password = $('input[name=password]').val();
+	data.verify_code = $('input[name=verify_code]').val();
+	data[encryptData.field_name] = encryptData.field_value;
+	
+	data.name = encrypt.encrypt(data.name);
+	data.password = encrypt.encrypt(data.password);
+	
+	var form = $('<form method="post">'
+		+ '<input type="hidden" name="name"/>'
+		+ '<input type="hidden" name="password"/>'
+		+ '<input type="hidden" name="verify_code"/>'
+		+ '</form>');
+	
+	form.find('input[name=name]').val(data.name);
+	form.find('input[name=password]').val(data.password);
+	form.find('input[name=verify_code]').val(data.verify_code);
+	form.appendTo($('body')).submit();
+}
 </script>

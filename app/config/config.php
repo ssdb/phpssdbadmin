@@ -19,6 +19,6 @@ return array(
 	),
 	'login' => array(
 		'name' => 'test',
-		'password' => '123456789', // at least 6 characters
+		'password' => '12345678', // at least 6 characters
 	),
 );
