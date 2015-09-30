@@ -23,6 +23,7 @@ phpssdbadmin
 __注意: 如果你还没有配置好 php, 请先配置好 php! 下面是一个示例, 但不保证你能完全理解. 如果你无法理解, 请在搜索引擎上学习如何配置 nginx+php, 谢谢!__
 
 	index index.php;
+	root /somewhere/htdocs
 	location ~ \.php$ {
 		include        fastcgi_params;
 		fastcgi_pass   127.0.0.1:9000;
@@ -73,6 +74,7 @@ Then edit your Nginx configuration, add one URL rewrite rule as:
 __Your have to set up nginx+php first!__
 
 	index index.php;
+	root /somewhere/htdocs
 	location ~ \.php$ {
 		include        fastcgi_params;
 		fastcgi_pass   127.0.0.1:9000;
