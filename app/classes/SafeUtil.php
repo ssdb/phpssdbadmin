@@ -76,8 +76,7 @@ class SafeUtil
 	}
 
 	static function set_encrypt_info($encrypt, $ttl){
-		#$token = SafeUtil::token();
-		$token = '123';
+		$token = SafeUtil::token();
 		self::set_data('encrypt_' . $token, $encrypt, $ttl);
 		setcookie(self::ENCRYPT_FIELD_NAME, $token, time() + $ttl, '/'/*, $domail*/);
 		return $token;
