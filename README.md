@@ -99,7 +99,7 @@ If you are using Apache, try this URL rewrite rule:
 * php-mcrypt
 
 
-## Screeshots
+## Screenshots
 
 ![](./imgs/phpssdbadmin-index.png)
 
