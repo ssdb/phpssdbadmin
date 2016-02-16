@@ -107,34 +107,7 @@ function route(){
 	return array($base, $controller, $action);
 }
 
-function find_layout_file(){
-	$layout = 'layout';
-	$path = base_path();
-	if(App::$controller->layout === false){
-		return false;
-	}
-	if(App::$controller->layout){
-		$layout = App::$controller->layout;
-	}
-	foreach(App::$controller->view_path as $view_path){
-		$ps = explode('/', $path);
-		while(1){
-			$base = join('/', $ps);
-			$file = APP_PATH . "/$view_path/$base/$layout.tpl.php";
-			if(file_exists($file)){
-				Logger::trace("Layout: $file");
-				return $file;
-			}
-			if(!$ps){
-				break;
-			}
-			array_pop($ps);
-		}
-	}
-	return false;
-}
-
-function find_view_file(){
+function find_view(){
 	foreach(include_paths() as $path){
 		// 由 Controller 指定模板的名字
 		if(App::$controller->action && App::$controller->action != 'index'){
@@ -151,11 +124,56 @@ function find_view_file(){
 				$file = $dir . "/$action.tpl.php";
 			}
 			if(file_exists($file)){
-				return $file;
+				return array($view_path, $file);
 			}
 		}
 	}
 	return false;
 }
 
+function find_layout_file($view_path){
+	$layout = 'layout';
+	$path = base_path();
+	if(App::$controller->layout === false){
+		return false;
+	}
+	if(App::$controller->layout){
+		$layout = App::$controller->layout;
+	}
+	
+	$ps = explode('/', $path);
+	while(1){
+		$base = join('/', $ps);
+		$file = APP_PATH . "/$view_path/$base/$layout.tpl.php";
+		if(file_exists($file)){
+			return $file;
+		}
+		if(!$ps){
+			break;
+		}
+		array_pop($ps);
+	}
+	return false;
+}
 
+function find_view_and_layout(){
+	$view = find_view();
+	$view_file = false;
+	$layout_file = false;
+	if($view){
+		$view_file = $view[1];
+		$layout_file = find_layout_file($view[0]);
+		if($layout_file){
+			array_unshift(App::$controller->view_path, $view[0]);
+		}
+	}
+	if(!$layout_file){
+		foreach(App::$controller->view_path as $view_path){
+			$layout_file = find_layout_file($view_path);
+			if($layout_file){
+				break;
+			}
+		}
+	}
+	return array($view_file, $layout_file);
+}

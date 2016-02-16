@@ -4,7 +4,7 @@
  * 示例见底部注释.
  * @author: wuzuyang@gmail.com
  */
-class Mysql{
+class Mysql_i{
 	var $conn;
 	var $query_list = array();
 	public $query_count = 0;
@@ -14,17 +14,12 @@ class Mysql{
 		if(!isset($c['port'])){
 			$c['port'] = '3306';
 		}
-		$server = $c['host'] . ':' . $c['port'];
-		$this->conn = @mysql_connect($server, $c['username'], $c['password'], true);
-		if(!$this->conn){
+		$this->conn = new mysqli($c['host'], $c['username'], $c['password'], $c['dbname'], $c['port']);
+		if($this->conn->connect_error){
 			throw new Exception('connect db error');
 		}
-		$ret = @mysql_select_db($c['dbname'], $this->conn);
-		if(!$ret){
-			throw new Exception("select db {$c['dbname']} error: ".mysql_error($this->conn));
-		}
 		if($c['charset']){
-			mysql_query("set names " . $c['charset'], $this->conn);
+			$this->conn->set_charset($c['charset']);
 		}
 	}
 	
@@ -37,7 +32,7 @@ class Mysql{
 	}
 
 	/**
-	 * 执行 mysql_query 并返回其结果.
+	 * 执行 mysqli_query 并返回其结果.
 	 */
 	public function query($sql){
 		if($this->readonly){
@@ -47,12 +42,12 @@ class Mysql{
 		}
 		$stime = microtime(true);
 
-		$result = mysql_query($sql, $this->conn);
+		$result = $this->conn->query($sql);
 		$this->query_count ++;
 		if($result === false){
-			Logger::error(mysql_error($this->conn)." in SQL: $sql");
+			Logger::error(mysqli_error($this->conn)." in SQL: $sql");
 			if(defined('ENV') && ENV == 'dev'){
-				throw new Exception(mysql_error($this->conn)." in SQL: $sql");
+				throw new Exception(mysqli_error($this->conn)." in SQL: $sql");
 			}else{
 				throw new Exception('db error');
 			}
@@ -70,7 +65,7 @@ class Mysql{
 	}
 	
 	function affected_rows(){
-		return mysql_affected_rows($this->conn);
+		return $this->conn->affected_rows;
 	}
 
 	/**
@@ -79,9 +74,9 @@ class Mysql{
 	public function get($sql, $type='object'){
 		$result = $this->query($sql);
 		if($type == 'object'){
-			$row = mysql_fetch_object($result);
+			$row = mysqli_fetch_object($result);
 		}else{
-			$row = mysql_fetch_assoc($result);
+			$row = mysqli_fetch_assoc($result);
 		}
 		if($row){
 			return $row;
@@ -98,7 +93,7 @@ class Mysql{
 		$data = array();
 		$result = $this->query($sql);
 		if($type == 'object'){
-			while($row = mysql_fetch_object($result)){
+			while($row = mysqli_fetch_object($result)){
 				if(!empty($key)){
 					$data[$row->{$key}] = $row;
 				}else{
@@ -106,7 +101,7 @@ class Mysql{
 				}
 			}
 		}else{
-			while($row = mysql_fetch_assoc($result)){
+			while($row = mysqli_fetch_assoc($result)){
 				if(!empty($key)){
 					$data[$row[$key]] = $row;
 				}else{
@@ -118,7 +113,7 @@ class Mysql{
 	}
 
 	public function last_insert_id(){
-		return mysql_insert_id($this->conn);
+		return $this->conn->insert_id;
 	}
 
 	/**
@@ -142,21 +137,21 @@ class Mysql{
 	 * 开始一个事务.
 	 */
 	public function begin(){
-		return mysql_query('begin', $this->conn);
+		return $this->conn->query("begin");
 	}
 
 	/**
 	 * 提交一个事务.
 	 */
 	public function commit(){
-		return mysql_query('commit', $this->conn);
+		return $this->conn->query("commit");
 	}
 
 	/**
 	 * 回滚一个事务.
 	 */
 	public function rollback(){
-		return mysql_query('rollback', $this->conn);
+		return $this->conn->query("rollback");
 	}
 
 
@@ -273,7 +268,7 @@ class Mysql{
 		}else if(is_object($val) || is_array($val)){
 			$this->escape_row($val);
 		}else if(is_string($val)){
-			$val = mysql_real_escape_string($val);
+			$val = $this->conn->real_escape_string($val);
 		}
 		return $val;
 	}
@@ -304,14 +299,14 @@ class Mysql{
 示例:
 
 // file: inc.php, 所有需要数据库连接的代码都include该文件
-include('Mysql.php');
+include('Mysql_i.php');
 $conf= array(
 	'host' => 'localhost',
 	'dbname' => 'database1',
 	'username' => 'test',
 	'password' => '123456',
 );
-$db = new Mysql($conf);
+$db = new Mysql_i($conf);
 
 
 // app.php

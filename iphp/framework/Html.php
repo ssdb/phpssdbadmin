@@ -16,6 +16,9 @@ class Html{
 	}
 	
 	static function base_url(){
+		if(App::$base_url){
+			return App::$base_url;
+		}
 		static $link = null;
 		if($link === null){
 			$host = $_SERVER['HTTP_HOST'];
@@ -24,7 +27,7 @@ class Html{
 				$host .= ":{$port}";
 			}
 			$path = dirname($_SERVER['SCRIPT_NAME']);
-			if($path == '/'){
+			if($path == '/' || $path == "\\"){
 				$path = ''; 
 			}
 			if($_SERVER['HTTPS'] || $port == 443){
@@ -66,11 +69,25 @@ class Html{
 		}
 		return $query;
 	}
+	
+	private static function is_static_resource($url){
+		static $exts = array('js', 'css');
+		$ps = explode('?', $url);
+		$url = $ps[0];
+		$ps = explode('#', $url);
+		$url = $ps[0];
+		$ps = explode('.', $url);
+		$ext = $ps[count($ps) - 1];
+		return in_array($ext, $exts);
+	}
 
 	static function link($url, $param=array()){
 		if(strpos($url, 'http://') === false && strpos($url, 'https://') === false){
 			$url = trim($url, '/');
 			$url = self::base_url() . '/' . $url;
+		}
+		if(App::$version && !isset($param['_v']) && self::is_static_resource($url)){
+			$param['_v'] = App::$version;
 		}
 		if($param){
 			if(strpos($url, '?')){

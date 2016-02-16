@@ -216,7 +216,7 @@ class Text
 				$mixed[$k] = self::stripslashes($v);
 			}
 			return $mixed;
-		}else if(is_array($mixed)){
+		}else if(is_object($mixed)){
 			foreach($mixed as $k=>$v){
 				$mixed->$k = self::stripslashes($v);
 			}

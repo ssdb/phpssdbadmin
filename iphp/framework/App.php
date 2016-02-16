@@ -5,8 +5,34 @@ class App{
 	static $controller;
 	static $finish = false;
 	static $config = array();
+	static $version = '';
+	static $base_url = null;
+
+	// view 的渲染结果先保存在此变量中
+	static $view_content = '';
+
+	static function host(){
+		$host = $_SERVER['HTTP_HOST'];
+		$port = $_SERVER['SERVER_PORT'];
+		if(strpos($host, ':') === false && $port != 80 && $port != 443){
+			$host .= ":{$port}";
+		}
+		return $host;
+	}
 	
+	static function set_base_url($base_url){
+		$base_url = rtrim($base_url, '/');
+		self::$base_url = $base_url;
+	}
+
 	static function init(){
+		$version_file = APP_PATH . '/../version';
+		if(file_exists($version_file)){
+			self::$version = trim(@file_get_contents($version_file));
+		}
+		// before any exception
+		self::$context = new Context();
+		
 		$config_file = APP_PATH . '/config/config.php';
 		if(!file_exists($config_file)){
 			throw new Exception("No config file");
@@ -15,11 +41,9 @@ class App{
 
 		self::$config = $config;
 		self::$env = $config['env'];
-		#self::$context = new stdClass();
-		self::$context = new Context();
 
 		Logger::init($config['logger']);
-		if($config['db']){
+		if(isset($config['db'])){
 			Db::init($config['db']);
 		}
 
@@ -38,11 +62,29 @@ class App{
 	}
 	
 	static function run(){
+		try{
+			return self::_run();
+		}catch(Exception $e){
+			if(App::$controller && App::$controller->is_ajax){
+				$code = $e->getCode();
+				$msg = $e->getMessage();
+				if(!strlen($msg)){
+					$msg = 'error';
+				}
+			}else{
+				return self::error_handle($e);
+			}
+		}
+	}
+	
+	static function _run(){
 		$code = 1;
 		$msg = '';
 		$data = null;
 
+		ob_start();
 		App::init();
+		ob_clean();
 		try{
 			$data = self::execute();
 		}catch(AppBreakException $e){
@@ -80,12 +122,28 @@ class App{
 				echo $json;
 			}
 		}else{
-			$layout = find_layout_file();
-			if($layout){
+			#var_dump(find_view_and_layout());
+			list($__view, $__layout) = find_view_and_layout();
+			if(!$__view){
+				Logger::trace("No view for " . base_path());
+			}else{
+				Logger::trace("View $__view");
 				$params = App::$context->as_array();
 				extract($params);
-				include($layout);
+				ob_start();
+				include($__view);
+				self::$view_content = ob_get_clean();
+			}
+			
+			if($__layout){
+				Logger::trace("Layout $__layout");
+				$params = App::$context->as_array();
+				extract($params);
+				include($__layout);
 			}else{
+				if(App::$controller->layout !== false){
+					Logger::error("No layout for " . base_path());
+				}
 				_view();
 			}
 		}
@@ -146,9 +204,12 @@ class App{
 	}
 	
 	static function error_handle($e){
-		$code = $e->getCode() === 0? 500 : $e->getCode();
+		$code = $e->getCode() === 0? 200 : $e->getCode();
 		if($code == 404){
+			App::$controller = new Controller();
 			header('Content-Type: text/html; charset=utf-8', true, 404);
+		}else if($code == 403){
+			header('Content-Type: text/html; charset=utf-8', true, 403);
 		}else if($code == 200){
 			//
 		}else{
@@ -159,14 +220,18 @@ class App{
 			$params = App::$context->as_array();
 			$params['_e'] = $e;
 			extract($params);
-			include($error_page);
-			return;
+			try{
+				include($error_page);
+				return;
+			}catch(Exception $e){
+				//
+			}
 		}
 		
 		$msg = htmlspecialchars($e->getMessage());
 		$html = '';
 		$html .= '<html><head>';
-		$html .= '<meta charset="UTF-8">';
+		$html .= '<meta charset="UTF-8"/>';
 		$html .= "<title>$msg</title>\n";
 		$html .= "<style>body{font-size: 14px; font-family: monospace;}</style>\n";
 		$html .= "</head><body>\n";
