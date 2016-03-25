@@ -116,7 +116,9 @@ function _widget($name, $params=array()){
 
 // $$params_or_http_code: array | int
 function _redirect($url, $params_or_http_code=array()){
-	App::$controller->layout = false;
+	if(App::$controller){
+		App::$controller->layout = false;
+	}
 	App::$finish = true;
 	$http_code = 302;
 	if(is_array($params_or_http_code)){
@@ -125,7 +127,7 @@ function _redirect($url, $params_or_http_code=array()){
 		$url = _url($url);
 		$http_code = intval($params_or_http_code);
 	}
-	header("Location: $url", true, $http_code);
+	@header("Location: $url", true, $http_code);
 	App::_break();
 }
 
