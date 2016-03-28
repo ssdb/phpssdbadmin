@@ -72,11 +72,16 @@ class App{
 		// before any exception
 		self::$context = new Context();
 
+		$code = 1;
+		$msg = '';
+		$data = null;
+		
 		try{
-			return self::_run();
+			$data = self::_run();
 		}catch(AppBreakException $e){
 			return;
 		}catch(Exception $e){
+			ob_clean();
 			if(App::$controller && App::$controller->is_ajax){
 				$code = $e->getCode();
 				$msg = $e->getMessage();
@@ -87,22 +92,6 @@ class App{
 				return self::error_handle($e);
 			}
 		}
-	}
-	
-	static function _run(){
-		$code = 1;
-		$msg = '';
-		$data = null;
-		
-		if(base_path() == 'index.php'){
-			_redirect('');
-		}
-
-		ob_start();
-		App::init();
-		ob_clean();
-
-		$data = self::execute();
 		
 		if(App::$controller && App::$controller->is_ajax){
 			$resp = array(
@@ -150,6 +139,19 @@ class App{
 				_view();
 			}
 		}
+	}
+	
+	static function _run(){
+		if(base_path() == 'index.php'){
+			_redirect('');
+		}
+
+		ob_start();
+		App::init();
+		ob_clean();
+
+		$data = self::execute();
+		return $data;
 	}
 
 	private static function execute(){
