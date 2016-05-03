@@ -19,6 +19,7 @@
 		<div class="navbar-header">
 			<a class="navbar-brand" href="<?php echo _url('')?>">PSA</a>
 		</div>
+		<?php if($user){?>
 		<ul class="nav navbar-nav">
 			<li class="divider-vertical"></li>
 			<li><a href="<?php echo _url('kv/scan')?>">kv</a></li>
@@ -33,6 +34,7 @@
 				</select>
 			</li>
 		</ul>
+		<?php } ?>
 		<ul class="nav navbar-nav navbar-right">
 		<?php if($user){ ?>
 			<li><a href="<?php echo _url('logout')?>">Logout</a></li>
