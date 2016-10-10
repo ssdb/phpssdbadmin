@@ -43,7 +43,7 @@
 			$v = substr($v, 0, 128) . '...';
 		}
 	?>
-	<tr>
+	<tr<?php echo ($k=="\xff\xff\xff\xff\xff|EXPIRE_LIST|KV")?" style=\"display:none\"":""?>>
 		<td><input type="checkbox" class="cb" /></td>
 		<td><a href="<?php echo _url('zset/zscan', array('n'=>$k))?>"><?php echo htmlspecialchars($k)?></a></td>
 		<td><?php echo $v?></td>
