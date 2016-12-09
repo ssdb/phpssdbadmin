@@ -30,7 +30,7 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="<?=_url('/js/jsencrypt.min.js')?>"></script>
+<script type="text/javascript" src="<?php echo _url('/js/jsencrypt.min.js');?>"></script>
 <script type="text/javascript">
 (function(){
 	$('#captcha').click(function(){
