@@ -98,6 +98,25 @@ If you are using Apache, try this URL rewrite rule:
 * php-gd
 * php-mcrypt
 
+### Deploy with Docker
+
+#### Build docker image
+On root of repository:
+```bash
+docker build -t ${YOUR_IMAGE_NAME} .
+```
+#### Run container
+These are 4 environment variables needed to changes
+
+ - SSDB_HOST: host of ssdb server (default is ssdb)
+ - SSDB_PORT: port of ssdb server (default is 8888)
+ - USERNAME: user name for login (default is admin)
+ - PASSWORD: the password (default is admin123)
+
+Example:
+```bash
+docker run -d -e SSDB_HOST=${YOUR_HOST} -p 80:80 ${YOUR_IMAGE_NAME}
+```
 
 ## Screenshots
 
