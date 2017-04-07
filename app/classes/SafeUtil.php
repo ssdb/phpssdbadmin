@@ -1,6 +1,7 @@
 <?php
 class SafeUtil
 {
+	const CAPTCHA_FIELD_NAME = '_captcha_code';
 	const ENCRYPT_FIELD_NAME = '_encrypt_code';
 
 	private static $ssdb_prefix = 'psa_safe_';
@@ -17,6 +18,7 @@ class SafeUtil
 			'data' => $data,
 			'expire' => time() + $ttl,
 		);
+		session_start();
 		$_SESSION[$token] = $val;
 		//$data = json_encode($data);
 		//Util::ssdb()->setx($token, $data, $ttl);
@@ -29,6 +31,8 @@ class SafeUtil
 		}
 		$token = self::$ssdb_prefix . $token;
 		//$data = Util::ssdb()->get($token);
+
+		session_start();
 		$val = $_SESSION[$token];
 		if(!is_array($val) || $val['expire'] < time()){
 			$data = null;
@@ -115,6 +119,48 @@ class SafeUtil
 			return $ret;
 		}else{
 			Logger::debug("解密失败, 没有对应的密钥: $token");
+		}
+		return false;
+	}
+	
+	// 保存浏览器用户的验证码, 将在 get_captcha 时返回 
+	static function set_captcha($code, $ttl, $token=null){
+		if(!$token){
+			$token = self::token();
+		}
+		self::set_data('captcha_' . $token, $code, $ttl);
+		setcookie(self::CAPTCHA_FIELD_NAME, $token, time() + $ttl, '/', '.'.Html::host());
+		return $token;
+	}
+	
+	static function get_captcha($token=false){
+		if($token === false){
+			$token = $_REQUEST[self::CAPTCHA_FIELD_NAME];
+		}
+		if(!$token){
+			return false;
+		}
+		$token = 'captcha_' . $token;
+		$saved_code = self::get_data($token);
+		return $saved_code;
+	}
+
+	static function verify_captcha($code){
+		if(!$code){
+			return false;
+		}
+		$code = strtolower($code);
+		$token = $_REQUEST[self::CAPTCHA_FIELD_NAME];
+		if(!$token){
+			return false;
+		}
+		$token = 'captcha_' . $token;
+		$saved_code = self::get_data($token);
+		if($saved_code && strtolower($saved_code) === $code){
+			self::del_data($token);
+			// 清除 cookie
+			setcookie(self::CAPTCHA_FIELD_NAME, '', 0, '/', '.'.Html::host());
+			return true;
 		}
 		return false;
 	}

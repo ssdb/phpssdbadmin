@@ -15,9 +15,19 @@ class CaptchaController extends Controller
 		//$captcha->imageFormat = 'png';
 		//$captcha->resourcesPath = "/var/cool-php-captcha/resources";
 
-		$code = $captcha->getText();
-		session_start();
-		$_SESSION['verify_code'] = $code;
-		$captcha->CreateImage();
+		$token = null;
+		if(isset($_GET['token']) && $_GET['token']){
+			$token = $_GET['token'];
+		}
+		if($token){
+			$code = SafeUtil::get_captcha(htmlspecialchars($_GET['token']));
+			$captcha->setText($code);
+		}else{
+			$code = $captcha->getText();
+		}
+		if(strlen($code)){
+			SafeUtil::set_captcha($code, 300, $token);
+			$captcha->CreateImage();
+		}
 	}
 }

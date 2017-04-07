@@ -45,8 +45,7 @@ class LoginController extends Controller
 		$password = htmlspecialchars(trim($req['password']));
 		$ctx->name = $name;
 
-		$vcode = strtolower(htmlspecialchars($_POST['verify_code']));
-		if(!$vcode || $vcode !== strtolower($_SESSION['verify_code'])){
+		if(!SafeUtil::verify_captcha($_POST['verify_code'])){
 			$ctx->errmsg = 'Wrong captcha code';
 			return;
 		}
