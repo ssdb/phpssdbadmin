@@ -53,6 +53,10 @@ class BaseController extends Controller
 			$this->ssdb->auth($conf['password']);
 		}
 		
+		if(!empty($conf['password'])) {
+			$this->ssdb->auth($conf['password']);
+		}
+		
 		$req = $_GET + $_POST;
 		if(isset($req['size'])){
 			$ctx->size = intval($req['size']);
