@@ -45,6 +45,7 @@ __注意: 如果你还没有配置好 php, 请先配置好 php! 下面是一个�
 
 * php-gd
 * php-mcrypt
+* php-openssl
 
 
 phpssdbadmin
@@ -97,6 +98,7 @@ If you are using Apache, try this URL rewrite rule:
 
 * php-gd
 * php-mcrypt
+* php-openssl
 
 
 ## Screenshots
