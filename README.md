@@ -1,6 +1,12 @@
 phpssdbadmin
 ============
 
+### PHP 模块依赖
+
+* php-gd
+* php-mcrypt
+* php-openssl
+
 ## 安装
 
 编辑 `app/config/config.php`:
@@ -39,13 +45,6 @@ __注意: 如果你还没有配置好 php, 请先配置好 php! 下面是一个�
 	RewriteCond %{REQUEST_FILENAME} !-d 
 	RewriteRule . /phpssdbadmin/index.php [L] 
 	</IfModule>
-
-
-### PHP 模块依赖
-
-* php-gd
-* php-mcrypt
-* php-openssl
 
 
 phpssdbadmin
