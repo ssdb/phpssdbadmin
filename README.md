@@ -52,6 +52,12 @@ phpssdbadmin
 
 SSDB Admin Tool Built with PHP.
 
+### PHP module dependency
+
+* php-gd
+* php-mcrypt
+* php-openssl
+
 ## Install
 
 Edit `app/config/config.conf`:
@@ -91,13 +97,6 @@ If you are using Apache, try this URL rewrite rule:
 	RewriteCond %{REQUEST_FILENAME} !-d 
 	RewriteRule . /phpssdbadmin/index.php [L] 
 	</IfModule>
-
-
-### PHP module dependency
-
-* php-gd
-* php-mcrypt
-* php-openssl
 
 
 ## Screenshots
